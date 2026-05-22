@@ -1,26 +1,238 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf8f5;
+  --foreground: #0f172a;
+
+  /* Brand Orange & Warm accents */
+  --accent-orange: oklch(0.62 0.23 42);
+  --accent-orange-hover: oklch(0.56 0.22 39);
+  --accent-amber: oklch(0.74 0.17 65);
+  --accent-terracotta: oklch(0.50 0.18 28);
+  --accent-emerald: oklch(0.60 0.18 140);
+
+  /* Material shadow tokens */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.02);
+  --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 1px 4px rgba(15, 23, 42, 0.03);
+  --shadow-lg: 0 12px 40px -10px rgba(15, 23, 42, 0.08), 0 1px 5px rgba(15, 23, 42, 0.04);
+  --shadow-orange: 0 8px 32px -8px rgba(249, 115, 22, 0.25);
+
+  --panel-bg: rgba(255, 255, 255, 0.96);
+  --panel-border: rgba(15, 23, 42, 0.07);
+
+  --card-bg: #ffffff;
+  --card-border: rgba(15, 23, 42, 0.06);
+
+  --text-title: #0f172a;
+  --text-body: #334155;
+  --text-muted: #64748b;
+  --border-theme: rgba(15, 23, 42, 0.08);
+  --input-bg: #f8fafc;
+
+  /* Selection option states — pre-computed, no dynamic opacity */
+  --option-selected-bg: rgba(249, 115, 22, 0.09);
+  --option-selected-border: rgba(249, 115, 22, 0.8);
+  --option-idle-bg: rgba(248, 250, 252, 0.5);
+  --option-hover-bg: rgba(248, 250, 252, 0.9);
+  --option-hover-border: rgba(249, 115, 22, 0.3);
 }
 
-@theme inline {
+html.dark {
+  --background: #0b0f19;
+  --foreground: #f8fafc;
+
+  --accent-orange: oklch(0.65 0.24 43);
+  --accent-orange-hover: oklch(0.59 0.23 40);
+  --accent-amber: oklch(0.76 0.18 68);
+  --accent-terracotta: oklch(0.55 0.19 30);
+  --accent-emerald: oklch(0.64 0.19 142);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 20px -2px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 12px 40px -10px rgba(0, 0, 0, 0.5), 0 1px 5px rgba(0, 0, 0, 0.25);
+  --shadow-orange: 0 8px 32px -8px rgba(249, 115, 22, 0.35);
+
+  --panel-bg: rgba(15, 23, 42, 0.92);
+  --panel-border: rgba(255, 255, 255, 0.09);
+
+  --card-bg: #121826;
+  --card-border: rgba(255, 255, 255, 0.07);
+
+  --text-title: #f8fafc;
+  --text-body: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-theme: rgba(255, 255, 255, 0.09);
+  --input-bg: #1b2336;
+
+  --option-selected-bg: rgba(249, 115, 22, 0.14);
+  --option-selected-border: rgba(249, 115, 22, 0.7);
+  --option-idle-bg: rgba(27, 35, 54, 0.6);
+  --option-hover-bg: rgba(27, 35, 54, 0.9);
+  --option-hover-border: rgba(249, 115, 22, 0.3);
+}
+
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-brand-orange: var(--accent-orange);
+  --color-brand-orange-hover: var(--accent-orange-hover);
+  --color-brand-amber: var(--accent-amber);
+  --color-brand-terracotta: var(--accent-terracotta);
+  --color-brand-emerald: var(--accent-emerald);
+
+  --color-brand-text-title: var(--text-title);
+  --color-brand-text-body: var(--text-body);
+  --color-brand-text-muted: var(--text-muted);
+  --color-brand-border-theme: var(--border-theme);
+  --color-brand-card-bg-theme: var(--card-bg);
+  --color-brand-card-border-theme: var(--card-border);
+  --color-brand-input-bg-theme: var(--input-bg);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+
+  --animate-pulse-slow: pulse-slow 4s ease-in-out infinite;
+  --animate-gradient-x: gradient-x 8s ease infinite;
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-in: fade-in 0.4s ease both;
+  --animate-count-up: count-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.7; }
+  }
+  @keyframes gradient-x {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes count-up {
+    from { opacity: 0; transform: translateY(8px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
 }
 
+/* ─── Base ─────────────────────────────────────────────────── */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--foreground) 14%, transparent);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--foreground) 24%, transparent);
+}
+
+/* ─── Material Panels ───────────────────────────────────────── */
+.glass-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  box-shadow: var(--shadow-lg);
+}
+
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-md);
+  /* Only transition GPU-composited properties — NO transition-all */
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.18s ease,
+              box-shadow 0.18s ease;
+  will-change: transform;
+  contain: layout style;
+}
+
+.glass-card:hover {
+  border-color: var(--option-hover-border);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px -5px rgba(249, 115, 22, 0.1), var(--shadow-md);
+}
+
+/* ─── QuoteBuilder option buttons ───────────────────────────── */
+/*
+ * KEY PERFORMANCE FIX:
+ * All QuoteBuilder selection buttons now use these two explicit utility classes
+ * instead of Tailwind's dynamic `transition-all`. This eliminates layout-
+ * thrashing caused by the browser watching every CSS property for changes.
+ */
+.option-btn {
+  text-align: left;
+  border-radius: 0.75rem;
+  border: 1.5px solid var(--border-theme);
+  background: var(--option-idle-bg);
+  /* Explicit properties only — no layout-recalculating transitions */
+  transition: border-color 0.15s ease,
+              background-color 0.15s ease,
+              box-shadow 0.15s ease;
+  cursor: pointer;
+  contain: layout style;
+}
+
+.option-btn:hover {
+  border-color: var(--option-hover-border);
+  background: var(--option-hover-bg);
+}
+
+.option-btn.selected {
+  border-color: var(--option-selected-border);
+  background: var(--option-selected-bg);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.08);
+}
+
+/* ─── Scroll Progress ───────────────────────────────────────── */
+@supports (animation-timeline: scroll()) {
+  .scroll-progress-indicator {
+    scale: 0 1;
+    transform-origin: left;
+    animation: scroll-progress-animation linear;
+    animation-timeline: scroll();
+  }
+  @keyframes scroll-progress-animation {
+    to { scale: 1 1; }
+  }
+}
+
+/* ─── Focus ─────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--accent-orange);
+  outline-offset: 3px;
+}
+
+/* ─── Form Validation ───────────────────────────────────────── */
+input:user-invalid,
+textarea:user-invalid,
+select:user-invalid {
+  border-color: var(--accent-terracotta) !important;
+  box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.12) !important;
+}
+
+/* ─── Reduced Motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
 }
