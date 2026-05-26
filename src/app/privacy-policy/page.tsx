@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const policySections = [
   {
     title: "1. Who We Are",
-    body: "Biibisoft is the data controller for personal data processed through our website and services. Our registered business details are maintained in the Republic of Ghana. Placeholder: add your official registered address and company registration details.",
+    body: "Biibisoft is the data controller for personal data processed through our website and services. Our registered business details are maintained in the Republic of Ghana.",
   },
   {
     title: "2. Legal Framework and Scope",
@@ -40,7 +40,7 @@ const policySections = [
   },
   {
     title: "8. Data Retention",
-    body: "We retain personal data only for as long as necessary for business, contractual, legal, and regulatory purposes. Placeholder: set concrete retention periods for inquiry data, client records, and technical logs.",
+    body: "We retain personal data only for as long as necessary for business, contractual, legal, and regulatory purposes.",
   },
   {
     title: "9. Information Security",
@@ -52,7 +52,7 @@ const policySections = [
   },
   {
     title: "11. Cookies and Similar Technologies",
-    body: "We may use cookies and similar technologies for core website functionality, performance measurement, and user experience improvements. Placeholder: add a detailed cookie list if non-essential cookies are introduced.",
+    body: "We may use cookies and similar technologies for core website functionality, performance measurement, and user experience improvements.",
   },
   {
     title: "12. Children and Sensitive Data",
@@ -88,9 +88,9 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="mt-4 text-brand-text-body leading-relaxed">
-            Effective Date: <strong>[Insert Effective Date]</strong>
+            Effective Date: <strong>1st March 2022</strong>
             <br />
-            Last Updated: <strong>[Insert Last Updated Date]</strong>
+            Last Updated: <strong>20 December 2025</strong>
           </p>
           <p className="mt-4 text-brand-text-body leading-relaxed">
             This Privacy Policy describes how Biibisoft collects, uses, stores,
@@ -103,7 +103,10 @@ export default function PrivacyPolicyPage() {
       <section className="pb-24 md:pb-28 max-w-5xl mx-auto px-6">
         <div className="space-y-5">
           {policySections.map((section) => (
-            <article key={section.title} className="glass-card rounded-2xl p-7 md:p-8">
+            <article
+              key={section.title}
+              className="glass-card rounded-2xl p-7 md:p-8"
+            >
               <h2 className="text-xl md:text-2xl font-extrabold text-brand-text-title">
                 {section.title}
               </h2>
@@ -123,11 +126,11 @@ export default function PrivacyPolicyPage() {
             <p className="mt-3 text-sm md:text-base text-brand-text-body leading-relaxed">
               <strong>Biibisoft Privacy Office</strong>
               <br />
-              Email: <strong>[Insert Privacy Email]</strong>
+              Email: <strong>message@biibisoft.com</strong>
               <br />
-              Phone: <strong>[Insert Privacy Contact Number]</strong>
+              Phone: <strong>+2332052221387</strong>
               <br />
-              Address: <strong>[Insert Registered Address, Ghana]</strong>
+              Address: <strong>Greater Accra Region, Ghana</strong>
             </p>
           </article>
         </div>
