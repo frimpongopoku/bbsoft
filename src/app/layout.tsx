@@ -20,24 +20,35 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Biibisoft | Futuristic Software & Web Solutions in Ghana",
-  description: "Biibisoft Ltd is a premium software engineering agency based in Ghana. We build high-performance websites, custom web apps, mobile apps, and modern web solutions designed to scale.",
-  keywords: ["Biibisoft", "Software Company Ghana", "Web Development Ghana", "Mobile App Development", "NextJS Developer Accra", "Ghana Tech Startup", "Custom Software Solutions"],
+  title: "Biibisoft | Product Innovation and Engineering Services",
+  description:
+    "Biibisoft is a Ghanaian software company that builds original digital products and partners with organizations to engineer high-performance web, mobile, and AI systems.",
+  keywords: [
+    "Biibisoft",
+    "Software Company Ghana",
+    "Product Innovation",
+    "Web Development Ghana",
+    "Mobile App Development",
+    "AI Engineering",
+    "Custom Software Solutions",
+  ],
   authors: [{ name: "Biibisoft" }],
   robots: "index, follow",
   openGraph: {
     type: "website",
     locale: "en_GH",
     url: "https://biibisoft.com",
-    title: "Biibisoft | Futuristic Software & Web Solutions in Ghana",
-    description: "Premium software engineering agency in Ghana. We build high-performance websites, custom web apps, mobile apps, and modern web solutions.",
+    title: "Biibisoft | Product Innovation and Engineering Services",
+    description:
+      "Ghanaian software company building internal products and delivering engineering services for client teams.",
     siteName: "Biibisoft",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Biibisoft | Futuristic Software & Web Solutions in Ghana",
-    description: "Premium software engineering agency in Ghana.",
-  }
+    title: "Biibisoft | Product Innovation and Engineering Services",
+    description:
+      "Ghanaian software company for innovation-led products and partner engineering.",
+  },
 };
 
 export default function RootLayout({
@@ -74,7 +85,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Header />
-        <main className="flex-grow flex flex-col w-full">
+        <main className="grow flex flex-col w-full">
           {children}
         </main>
         <Footer />

@@ -156,7 +156,6 @@ body {
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.18s ease,
               box-shadow 0.18s ease;
-  will-change: transform;
   contain: layout style;
 }
 
@@ -164,6 +163,80 @@ body {
   border-color: var(--option-hover-border);
   transform: translateY(-3px);
   box-shadow: 0 12px 30px -5px rgba(249, 115, 22, 0.1), var(--shadow-md);
+  will-change: transform;
+}
+
+/* ─── Below-the-fold containment ─────────────────────────────
+ * Lets the browser skip layout/paint for offscreen sections.
+ * intrinsic-size keeps scroll geometry stable.
+ * ──────────────────────────────────────────────────────────── */
+.cv-auto-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+/* ─── Organization belt ─────────────────────────────────────────
+ * Perf notes:
+ *  - No `will-change` (forces permanent compositor layer + memory pressure).
+ *  - `content-visibility: auto` skips work when scrolled off-screen.
+ *  - `contain: layout paint` on the mask isolates the animating subtree.
+ *  - Items intentionally have NO `contain` — overhead per element exceeds savings.
+ *  - Mask uses CSS mask-image (GPU-friendly) instead of pseudo-element gradients.
+ * ──────────────────────────────────────────────────────────── */
+.org-belt-mask-full {
+  position: relative;
+  overflow: hidden;
+  contain: layout paint;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 76px;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 6rem,
+    black calc(100% - 6rem),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 6rem,
+    black calc(100% - 6rem),
+    transparent 100%
+  );
+}
+
+.org-belt-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-org-belt 40s linear infinite;
+}
+
+.org-belt-group {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.9rem;
+}
+
+.org-belt-item {
+  white-space: nowrap;
+  padding: 0.5rem 0.9rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-theme);
+  background: var(--card-bg);
+  color: var(--text-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+@keyframes scroll-org-belt {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+.org-belt-mask-full:hover .org-belt-track {
+  animation-play-state: paused;
 }
 
 /* ─── QuoteBuilder option buttons ───────────────────────────── */
@@ -234,5 +307,9 @@ select:user-invalid {
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .org-belt-track {
+    animation: none !important;
   }
 }

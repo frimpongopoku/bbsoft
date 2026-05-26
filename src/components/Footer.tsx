@@ -11,7 +11,7 @@ export default function Footer() {
         {/* Brand column */}
         <div className="flex flex-col gap-4">
           <Link href="/" className="flex items-center gap-2 group focus:outline-none" aria-label="Biibisoft Home">
-            <div className="p-2 rounded-xl bg-gradient-to-tr from-brand-orange to-brand-amber flex items-center justify-center text-white">
+            <div className="p-2 rounded-xl bg-linear-to-tr from-brand-orange to-brand-amber flex items-center justify-center text-white">
               <Cpu className="w-5 h-5" />
             </div>
             <span className="font-sans font-bold text-xl tracking-tight text-white select-none">
@@ -47,10 +47,10 @@ export default function Footer() {
         <div>
           <h3 className="font-bold text-white tracking-widest uppercase text-xs mb-4">Services</h3>
           <ul className="flex flex-col gap-3 text-sm">
-            <li><Link href="#services" className="hover:text-brand-orange transition-colors">Web Applications</Link></li>
-            <li><Link href="#services" className="hover:text-brand-orange transition-colors">Mobile Applications</Link></li>
-            <li><Link href="#services" className="hover:text-brand-orange transition-colors">Corporate Websites</Link></li>
-            <li><Link href="#services" className="hover:text-brand-orange transition-colors">Custom Cloud APIs</Link></li>
+            <li><Link href="/hire-us#services" className="hover:text-brand-orange transition-colors">Web Applications</Link></li>
+            <li><Link href="/hire-us#services" className="hover:text-brand-orange transition-colors">Mobile Applications</Link></li>
+            <li><Link href="/hire-us#services" className="hover:text-brand-orange transition-colors">Corporate Websites</Link></li>
+            <li><Link href="/hire-us#services" className="hover:text-brand-orange transition-colors">Custom Cloud APIs</Link></li>
           </ul>
         </div>
 
@@ -58,10 +58,11 @@ export default function Footer() {
         <div>
           <h3 className="font-bold text-white tracking-widest uppercase text-xs mb-4">Company</h3>
           <ul className="flex flex-col gap-3 text-sm">
-            <li><Link href="#about" className="hover:text-brand-orange transition-colors">About Us</Link></li>
-            <li><Link href="#tech-stack" className="hover:text-brand-orange transition-colors">Tech Stack</Link></li>
-            <li><Link href="#estimator" className="hover:text-brand-orange transition-colors">Cost Estimator</Link></li>
-            <li><Link href="#contact" className="hover:text-brand-orange transition-colors">Inquiries</Link></li>
+            <li><Link href="/" className="hover:text-brand-orange transition-colors">About Us</Link></li>
+            <li><Link href="/hire-us#tech-stack" className="hover:text-brand-orange transition-colors">Tech Stack</Link></li>
+            <li><Link href="/hire-us#estimator" className="hover:text-brand-orange transition-colors">Cost Estimator</Link></li>
+            <li><Link href="/hire-us#contact" className="hover:text-brand-orange transition-colors">Inquiries</Link></li>
+            <li><Link href="/privacy-policy" className="hover:text-brand-orange transition-colors">Privacy Policy</Link></li>
           </ul>
         </div>
 

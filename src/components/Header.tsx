@@ -34,17 +34,25 @@ export default function Header() {
     };
     mediaQuery.addEventListener("change", handleSystemThemeChange);
 
+    let scrollRaf = 0;
+    let lastScrolled = window.scrollY > 20;
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      if (scrollRaf) return;
+      scrollRaf = window.requestAnimationFrame(() => {
+        scrollRaf = 0;
+        const next = window.scrollY > 20;
+        if (next !== lastScrolled) {
+          lastScrolled = next;
+          setIsScrolled(next);
+        }
+      });
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       clearTimeout(timer);
+      if (scrollRaf) window.cancelAnimationFrame(scrollRaf);
       window.removeEventListener("scroll", handleScroll);
       mediaQuery.removeEventListener("change", handleSystemThemeChange);
     };
@@ -65,17 +73,17 @@ export default function Header() {
   };
 
   const navLinks = [
-    { name: "Services", href: "#services" },
-    { name: "About", href: "#about" },
-    { name: "Estimator", href: "#estimator" },
-    { name: "Tech Stack", href: "#tech-stack" },
-    { name: "Contact", href: "#contact" },
+    { name: "Hire Us", href: "/hire-us" },
+    { name: "Services", href: "/hire-us#services" },
+    { name: "About", href: "/" },
+    { name: "Estimator", href: "/hire-us#estimator" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
   ];
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-[padding,background-color,border-color,box-shadow] duration-200 ease-out ${
           isScrolled
             ? "py-3 glass-panel border-b border-brand-border-theme"
             : "py-6 bg-transparent"
@@ -88,8 +96,8 @@ export default function Header() {
             className="flex items-center gap-2 group focus:outline-none"
             aria-label="Biibisoft Home"
           >
-            <div className="p-2 rounded-xl bg-gradient-to-tr from-brand-orange to-brand-amber flex items-center justify-center text-white group-hover:scale-105 transition-transform">
-              <Cpu className="w-5 h-5 animate-pulse" />
+            <div className="p-2 rounded-xl bg-linear-to-tr from-brand-orange to-brand-amber flex items-center justify-center text-white group-hover:scale-105 transition-transform">
+              <Cpu className="w-5 h-5" />
             </div>
             <span className="font-sans font-bold text-xl tracking-tight text-brand-text-title select-none">
               Biibi<span className="text-brand-orange">soft</span>
@@ -125,7 +133,7 @@ export default function Header() {
             </button>
             
             <Link
-              href="#estimator"
+              href="/hire-us#estimator"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-slate-900 hover:bg-slate-800 transition-colors focus:ring-2 focus:ring-brand-orange focus:outline-none dark:bg-brand-orange dark:hover:bg-brand-orange-hover"
             >
               Get Estimation
@@ -160,8 +168,8 @@ export default function Header() {
         </div>
 
         {/* Scroll Progress Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand-border-theme">
-          <div className="scroll-progress-indicator h-full bg-gradient-to-r from-brand-orange via-brand-amber to-brand-orange w-full" />
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-border-theme">
+          <div className="scroll-progress-indicator h-full bg-linear-to-r from-brand-orange via-brand-amber to-brand-orange w-full" />
         </div>
       </header>
 
@@ -184,7 +192,7 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href="#estimator"
+              href="/hire-us#estimator"
               onClick={() => setIsMobileMenuOpen(false)}
               className="mt-8 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-semibold uppercase tracking-wider text-white bg-slate-900 hover:bg-slate-800 transition-colors dark:bg-brand-orange dark:hover:bg-brand-orange-hover"
             >

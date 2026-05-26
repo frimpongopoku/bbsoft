@@ -1,500 +1,152 @@
-"use client";
-
-import React, { useState } from "react";
 import Link from "next/link";
-import {
-  Terminal,
-  Laptop,
-  Smartphone,
-  Cpu,
-  Database,
-  Zap,
-  Sparkles,
-  Bot,
-  Globe,
-  MessageSquare,
-  ArrowRight,
-  Send,
-  Phone,
-  CheckCircle,
-  HelpCircle,
-  MapPin,
-  Flame,
-  Star,
-} from "lucide-react";
+import { ArrowRight, Building2, Cpu, FlaskConical, Orbit } from "lucide-react";
 import BackgroundGrid from "@/components/BackgroundGrid";
-import QuoteBuilder from "@/components/QuoteBuilder";
 
-// ─── Static data outside component ──────────────────────────────────────────
-const SERVICES = [
+const INNOVATION_PILLARS = [
   {
-    icon: Bot,
-    tag: "AI-First",
-    title: "Artificial Intelligence & ML",
-    desc: "Custom LLM integrations, RAG pipelines, automated vector database querying, and production chatbot assistants built to scale.",
-    accent: "from-brand-orange to-brand-amber",
+    title: "Internal Product Innovation",
+    description:
+      "We design and launch original software products from Accra with global product standards.",
+    icon: FlaskConical,
   },
   {
-    icon: Laptop,
-    tag: "Full-Stack",
-    title: "Web App Development",
-    desc: "Robust, scalable SaaS portals and complex admin systems built with Next.js, TypeScript, and state-of-the-art security layers.",
-    accent: "from-brand-amber to-brand-terracotta",
+    title: "Partner Engineering",
+    description:
+      "We embed with teams to build client-facing web, mobile, and AI products that deliver measurable value.",
+    icon: Building2,
   },
   {
-    icon: Smartphone,
-    tag: "Cross-Platform",
-    title: "Mobile Applications",
-    desc: "Beautiful native iOS & Android apps crafted with React Native and Expo, offering high frame-rate performance and intuitive gestures.",
-    accent: "from-brand-terracotta to-brand-orange",
-  },
-  {
-    icon: Globe,
-    tag: "Marketing",
-    title: "Corporate Websites",
-    desc: "Stunning marketing sites that load instantly, score perfect PageSpeed scores, and command audience authority with premium animations.",
-    accent: "from-brand-orange to-brand-amber",
+    title: "Scalable Delivery",
+    description:
+      "Our systems are built for performance, maintainability, and long-term growth across markets.",
+    icon: Cpu,
   },
 ] as const;
 
-const PORTFOLIO = [
-  {
-    title: "KuaLingo AI Dialect Translator",
-    category: "AI & Dialect Integration",
-    desc: "A fine-tuned translation system matching local Ghanaian dialects (Akan, Ewe, Ga, Dagbani) for customer support automation. Built with embeddings and custom vector indexing.",
-    tech: ["Next.js", "FastAPI", "OpenAI API", "Pinecone"],
-    gradient: "from-brand-orange/8 to-brand-amber/5",
-  },
-  {
-    title: "SikaFlow Mobile Wallet",
-    category: "Fintech App",
-    desc: "A secure digital ledger and transfer interface for West African transaction flows. Offers instant offline ledgers and biometric login.",
-    tech: ["React Native", "Node.js", "Firebase", "WebSockets"],
-    gradient: "from-brand-amber/8 to-brand-terracotta/5",
-  },
-  {
-    title: "AgriGrow Crop Intelligence",
-    category: "Web Platform & Dashboard",
-    desc: "An analytical dashboard for agricultural cooperatives in Accra, mapping soil yields and calculating rainfall probability matrices via ML.",
-    tech: ["Next.js", "Tailwind CSS", "Python API", "PostgreSQL"],
-    gradient: "from-brand-terracotta/8 to-brand-orange/5",
-  },
+const ORGANIZATIONS = [
+  "Massenergize",
+  "SkilledHQ",
+  "New Fire Radio",
+  "Pidaso",
+  "Royal Cephas",
 ] as const;
 
-const TECH_LOGOS = [
-  { name: "Next.js",      desc: "React Framework", icon: Cpu },
-  { name: "TypeScript",   desc: "Type Safety",     icon: Terminal },
-  { name: "React Native", desc: "Mobile Core",     icon: Smartphone },
-  { name: "Tailwind CSS", desc: "Modern Utility",  icon: Sparkles },
-  { name: "PostgreSQL",   desc: "Relational DB",   icon: Database },
-  { name: "Node.js",      desc: "Server Engine",   icon: Zap },
-] as const;
-
-const STATS = [
-  { value: "100%", label: "GHS Registered Ltd" },
-  { value: "24/7", label: "Client Support" },
-  { value: "90+",  label: "PageSpeed Target" },
-] as const;
-
-// ─── Component ───────────────────────────────────────────────────────────────
 export default function Home() {
-  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-
-  const handleSelectEstimate = (text: string) => {
-    setFormData(prev => ({ ...prev, subject: "Custom Project Quote Estimate", message: text }));
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
-      setFormData({ name: "", email: "", subject: "", message: "" });
-      setTimeout(() => setSubmitSuccess(false), 8000);
-    }, 2000);
-  };
-
   return (
-    <div className="relative min-h-screen flex flex-col font-sans">
+    <div className="relative min-h-screen font-sans">
       <BackgroundGrid />
 
-      {/* ────────────────────────────── HERO ────────────────────────────── */}
-      <section className="relative pt-36 pb-24 md:pt-52 md:pb-32 max-w-7xl mx-auto px-6 w-full flex flex-col items-center text-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-brand-orange bg-brand-orange/10 border border-brand-orange/20 mb-8 animate-pulse-slow">
-          <Flame className="w-3.5 h-3.5" />
-          Software Engineering Agency · Accra, Ghana
-        </div>
+      <section className="relative pt-36 pb-20 md:pt-52 md:pb-28 max-w-7xl mx-auto px-6 text-center">
+        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-brand-orange bg-brand-orange/10 border border-brand-orange/20">
+          <Orbit className="w-3.5 h-3.5" />
+          Biibisoft · Product Innovation + Client Delivery
+        </span>
 
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-sans font-extrabold tracking-tight leading-[1.08] max-w-4xl text-brand-text-title">
-          We Build the{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-brand-amber to-brand-orange animate-gradient-x bg-[length:200%_auto]">
-            Future of Software
+        <h1 className="mt-8 text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.08] text-brand-text-title max-w-5xl mx-auto">
+          Building Our Own
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-brand-orange via-brand-amber to-brand-orange">
+            {" "}Future-Ready Products{" "}
           </span>
-          {" "}For Your Brand
+          While Engineering Yours
         </h1>
 
-        <p className="mt-6 text-base sm:text-lg md:text-xl text-brand-text-body max-w-2xl leading-relaxed">
-          Biibisoft Ltd is a registered software engineering company in Ghana. We engineer websites,
-          mobile apps, AI systems, and robust cloud services that outperform international standards.
+        <p className="mt-6 text-base sm:text-lg md:text-xl text-brand-text-body max-w-3xl mx-auto leading-relaxed">
+          Biibisoft is a Ghanaian software company that innovates internally and
+          partners with organizations to design and deliver high-impact digital
+          products. From bold ideas to production systems, we build what moves
+          businesses forward.
         </p>
 
-        {/* Social proof strip */}
-        <div className="mt-6 flex items-center gap-2 text-sm text-brand-text-muted">
-          <div className="flex -space-x-1.5">
-            {["A","B","C","D"].map(letter => (
-              <span key={letter} className="w-7 h-7 rounded-full bg-gradient-to-tr from-brand-orange to-brand-amber flex items-center justify-center text-[10px] font-bold text-white border-2 border-background">
-                {letter}
-              </span>
-            ))}
-          </div>
-          <div className="flex items-center gap-1">
-            {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-brand-orange text-brand-orange" />)}
-          </div>
-          <span>Trusted by clients across West Africa &amp; beyond</span>
-        </div>
-
-        {/* CTAs */}
-        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center w-full max-w-sm">
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            href="#estimator"
-            className="flex h-12 items-center justify-center gap-2 rounded-full bg-brand-orange text-white px-7 text-sm font-bold uppercase tracking-wider"
-            style={{ transition: "background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease" }}
-            onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-1px)")}
-            onMouseLeave={e => (e.currentTarget.style.transform = "")}
+            href="/hire-us"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-brand-orange px-7 text-sm font-bold uppercase tracking-wider text-white"
           >
-            Calculate Project Cost
+            Hire Us
             <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
-            href="#contact"
-            className="flex h-12 items-center justify-center gap-2 rounded-full border border-brand-border-theme bg-brand-card-bg-theme px-7 text-sm font-bold uppercase tracking-wider text-brand-text-body"
-            style={{ transition: "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease" }}
+            href="/hire-us#contact"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-brand-border-theme bg-brand-card-bg-theme px-7 text-sm font-bold uppercase tracking-wider text-brand-text-body"
           >
-            Consult With Us
+            Start A Conversation
           </Link>
         </div>
+      </section>
 
-        {/* Tech badges */}
-        <div className="mt-20 w-full max-w-5xl glass-panel rounded-2xl p-6 grid grid-cols-3 sm:grid-cols-6 gap-4 items-center text-center">
-          {TECH_LOGOS.map(tech => {
-            const Icon = tech.icon;
+      <section
+        aria-label="Organizations we work with"
+        className="w-full border-y border-brand-border-theme/60 bg-brand-card-bg-theme/30"
+      >
+        <div className="org-belt-mask-full">
+          <div className="org-belt-track">
+            <div className="org-belt-group">
+              {ORGANIZATIONS.map((organization) => (
+                <span key={`a-${organization}`} className="org-belt-item">
+                  {organization}
+                </span>
+              ))}
+            </div>
+            <div className="org-belt-group" aria-hidden="true">
+              {ORGANIZATIONS.map((organization) => (
+                <span key={`b-${organization}`} className="org-belt-item">
+                  {organization}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="cv-auto-section py-16 md:py-20 border-y border-brand-border-theme/60 bg-brand-card-bg-theme/40">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-5">
+          {INNOVATION_PILLARS.map((pillar) => {
+            const Icon = pillar.icon;
             return (
-              <div key={tech.name} className="flex flex-col items-center gap-2 group cursor-default">
-                <div
-                  className="p-2.5 rounded-xl bg-brand-input-bg-theme text-brand-text-muted group-hover:text-brand-orange"
-                  style={{ transition: "background-color 0.15s ease, color 0.15s ease" }}
-                >
+              <article key={pillar.title} className="glass-card rounded-2xl p-7">
+                <div className="inline-flex p-2.5 rounded-xl bg-brand-orange/10 text-brand-orange">
                   <Icon className="w-5 h-5" />
                 </div>
-                <div>
-                  <span className="text-xs font-bold text-brand-text-body block">{tech.name}</span>
-                  <span className="text-[10px] text-brand-text-muted block">{tech.desc}</span>
-                </div>
-              </div>
+                <h2 className="mt-4 text-xl font-extrabold text-brand-text-title">
+                  {pillar.title}
+                </h2>
+                <p className="mt-2 text-sm text-brand-text-body leading-relaxed">
+                  {pillar.description}
+                </p>
+              </article>
             );
           })}
         </div>
       </section>
 
-      {/* ──────────────────────────── SERVICES ──────────────────────────── */}
-      <section id="services" className="py-20 md:py-28 border-t border-brand-border-theme/60 bg-brand-card-bg-theme/40 relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="max-w-3xl mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-orange mb-3">Our Capabilities</p>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-text-title mb-4">
-              End-to-End Development Tailored for Performance &amp; Scale
+      <section className="cv-auto-section pb-24 md:pb-28">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="glass-panel rounded-3xl p-8 md:p-12 text-center">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-orange mb-3">
+              Ready to Build
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-text-title">
+              Bring Biibisoft In As Your Product Partner
             </h2>
-            <p className="text-brand-text-body text-sm sm:text-base leading-relaxed">
-              From AI-powered systems to cross-platform mobile apps — we design and build digital infrastructure that empowers businesses to move faster and smarter.
+            <p className="mt-4 text-brand-text-body max-w-2xl mx-auto leading-relaxed">
+              Whether you need a full build, a product upgrade, or an AI-first
+              system, our team is ready to collaborate with speed and
+              engineering precision.
             </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {SERVICES.map((service) => {
-              const Icon = service.icon;
-              return (
-                <div key={service.title} className="glass-card rounded-2xl p-8 relative overflow-hidden group">
-                  {/* Gradient accent line at top */}
-                  <div className={`absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r ${service.accent} opacity-0 group-hover:opacity-100`} style={{ transition: "opacity 0.2s ease" }} />
-
-                  <div className="flex items-start gap-5">
-                    <div className="p-3 rounded-xl bg-brand-orange/10 text-brand-orange shrink-0 group-hover:scale-105" style={{ transition: "transform 0.2s ease" }}>
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-brand-orange border border-brand-orange/30 px-1.5 py-0.5 rounded-full">{service.tag}</span>
-                      </div>
-                      <h3 className="text-lg font-extrabold text-brand-text-title mb-2 group-hover:text-brand-orange" style={{ transition: "color 0.15s ease" }}>
-                        {service.title}
-                      </h3>
-                      <p className="text-brand-text-body text-sm leading-relaxed">{service.desc}</p>
-                    </div>
-                  </div>
-
-                  <div className="mt-5 flex items-center gap-1 text-xs font-semibold text-brand-orange opacity-0 group-hover:opacity-100" style={{ transition: "opacity 0.2s ease" }}>
-                    Learn more <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ───────────────────────────── ABOUT ────────────────────────────── */}
-      <section id="about" className="py-20 md:py-28 border-t border-brand-border-theme/60 relative">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-6">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-orange">Who We Are</p>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-text-title leading-tight">
-              Biibisoft Ltd — A Registered Software Engineering Firm in Ghana
-            </h2>
-            <p className="text-brand-text-body leading-relaxed text-sm sm:text-base">
-              Biibisoft is incorporated under the laws of the Republic of Ghana as a Private Limited Company.
-              Operating from Accra, we serve local startups, growing brands, and international partners
-              seeking premium software built to global standards.
-            </p>
-            <p className="text-brand-text-body leading-relaxed text-sm sm:text-base">
-              Our culture is rooted in absolute engineering discipline — no bloated frameworks, no shortcuts.
-              We focus on web core vitals (LCP, INP, CLS), proper accessibility, and code that runs with
-              optimum fluidity on any device.
-            </p>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 pt-2">
-              {STATS.map(stat => (
-                <div key={stat.label} className="glass-card rounded-xl p-4 text-center">
-                  <div className="text-2xl font-extrabold text-brand-text-title font-mono mb-1">{stat.value}</div>
-                  <div className="text-[9px] text-brand-text-muted uppercase tracking-widest leading-tight">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Registry card */}
-          <div className="glass-panel rounded-2xl p-7 flex flex-col gap-6">
-            <div className="flex justify-between items-center">
-              <span className="text-[10px] font-mono text-brand-text-muted uppercase tracking-widest">Registry Details // GH-LTD</span>
-              <span className="px-2.5 py-1 rounded-full text-[9px] font-bold text-brand-emerald border border-brand-emerald/30 bg-brand-emerald/8 uppercase tracking-wider">
-                ● Active
-              </span>
-            </div>
-
-            <div className="p-5 rounded-xl bg-brand-input-bg-theme border border-brand-border-theme font-mono text-xs text-brand-text-body leading-7">
-              <span className="text-brand-orange">company_name</span>: <span className="text-brand-text-title">&quot;Biibisoft Ltd&quot;</span><br />
-              <span className="text-brand-orange">location</span>: <span className="text-brand-text-title">&quot;Accra, Ghana&quot;</span><br />
-              <span className="text-brand-orange">entity_type</span>: <span className="text-brand-text-title">&quot;Private Limited Company&quot;</span><br />
-              <span className="text-brand-orange">jurisdiction</span>: <span className="text-brand-text-title">&quot;Republic of Ghana&quot;</span><br />
-              <span className="text-brand-orange">services</span>: [<span className="text-brand-amber">&quot;AI&quot;</span>, <span className="text-brand-amber">&quot;Web&quot;</span>, <span className="text-brand-amber">&quot;Mobile&quot;</span>, <span className="text-brand-amber">&quot;Cloud&quot;</span>]
-            </div>
-
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-brand-orange/20 bg-brand-orange/6">
-              <Flame className="w-4 h-4 text-brand-orange shrink-0 mt-0.5" />
-              <p className="text-xs text-brand-text-body leading-relaxed italic">
-                &ldquo;Engineering software that matches global quality standards, built right here in Accra — the heart of West African tech.&rdquo;
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─────────────────────────── ESTIMATOR ──────────────────────────── */}
-      <section id="estimator" className="py-20 md:py-28 border-t border-brand-border-theme/60 bg-brand-card-bg-theme/40 relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="max-w-3xl mb-12">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-orange mb-3">Interactive Tool</p>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-text-title mb-4">
-              Configure Your Custom Project Estimate
-            </h2>
-            <p className="text-brand-text-body text-sm sm:text-base leading-relaxed">
-              Use our interactive quote calculator to customise your project. Choose your platform, add modules,
-              pick design fidelity, and see an instant estimate in USD and GHS.
-            </p>
-          </div>
-          <QuoteBuilder onSelectEstimate={handleSelectEstimate} />
-        </div>
-      </section>
-
-      {/* ──────────────────────────── PORTFOLIO ─────────────────────────── */}
-      <section id="tech-stack" className="py-20 md:py-28 border-t border-brand-border-theme/60 relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="max-w-3xl mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-orange mb-3">Portfolio Overview</p>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-text-title mb-4">
-              Featured Concepts &amp; Client Systems
-            </h2>
-            <p className="text-brand-text-body text-sm sm:text-base leading-relaxed">
-              Simulated architectures representative of projects delivered by our engineering team across Ghana and beyond.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {PORTFOLIO.map(work => (
-              <div key={work.title} className="glass-card rounded-2xl p-6 flex flex-col justify-between gap-5">
-                <div>
-                  <span className="text-[9px] font-mono text-brand-orange uppercase tracking-widest font-bold border border-brand-orange/25 px-2 py-0.5 rounded-full">
-                    {work.category}
-                  </span>
-                  <h3 className="text-lg font-bold text-brand-text-title mt-3 mb-2 leading-snug">{work.title}</h3>
-                  <p className="text-xs text-brand-text-body leading-relaxed">{work.desc}</p>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {work.tech.map(t => (
-                    <span key={t} className="px-2 py-0.5 rounded-md text-[9px] font-bold font-mono text-brand-orange bg-brand-orange/8 border border-brand-orange/20">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ───────────────────────────── CONTACT ──────────────────────────── */}
-      <section id="contact" className="py-20 md:py-28 border-t border-brand-border-theme/60 bg-brand-card-bg-theme/40 relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-
-            {/* Info (4 cols) */}
-            <div className="lg:col-span-4 space-y-8">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-brand-orange mb-3">Connect With Us</p>
-                <h2 className="text-3xl font-extrabold text-brand-text-title mb-4 leading-tight">
-                  Let&apos;s Build Something Incredible Together
-                </h2>
-                <p className="text-brand-text-body text-sm leading-relaxed">
-                  Submit an inquiry or use the Estimator above to auto-populate your project specs.
-                  A consultant will contact you within 24 hours.
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                {[
-                  { icon: MapPin,       text: "Accra, Greater Accra, Ghana" },
-                  { icon: Phone,        text: "+233 (0) 24 000 0000" },
-                  { icon: MessageSquare, text: "message@biibisoft.com" },
-                ].map(({ icon: Icon, text }) => (
-                  <div key={text} className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-lg bg-brand-orange/10 text-brand-orange shrink-0">
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <span className="text-sm text-brand-text-body">{text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Form (8 cols) */}
-            <div className="lg:col-span-8">
-              <div className="glass-panel rounded-2xl p-8">
-                {submitSuccess ? (
-                  <div className="py-8 text-center space-y-4 flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-brand-emerald/12 border border-brand-emerald/25 flex items-center justify-center">
-                      <CheckCircle className="w-8 h-8 text-brand-emerald" />
-                    </div>
-                    <h4 className="text-xl font-bold text-brand-text-title">Inquiry Sent Successfully</h4>
-                    <p className="text-sm text-brand-text-body max-w-md leading-relaxed">
-                      Thank you for reaching out. We&apos;ve received your project details and our engineering
-                      lead will respond within 24 hours.
-                    </p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      {(["name", "email"] as const).map(field => (
-                        <div key={field} className="flex flex-col gap-1.5">
-                          <label htmlFor={field} className="text-[10px] font-bold text-brand-text-muted uppercase tracking-widest">
-                            {field === "name" ? "Your Name" : "Email Address"}
-                          </label>
-                          <input
-                            id={field}
-                            name={field}
-                            type={field === "email" ? "email" : "text"}
-                            required
-                            value={formData[field]}
-                            onChange={handleInputChange}
-                            className="w-full bg-brand-input-bg-theme border border-brand-border-theme rounded-xl px-4 py-3 text-sm text-brand-text-title focus:outline-none placeholder:text-brand-text-muted/50"
-                            style={{ transition: "border-color 0.15s ease, box-shadow 0.15s ease" }}
-                            onFocus={e => { e.currentTarget.style.borderColor = "var(--accent-orange)"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(249,115,22,0.08)"; }}
-                            onBlur={e => { e.currentTarget.style.borderColor = ""; e.currentTarget.style.boxShadow = ""; }}
-                            placeholder={field === "name" ? "e.g. Kofi Mensah" : "e.g. kofi@example.com"}
-                          />
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="subject" className="text-[10px] font-bold text-brand-text-muted uppercase tracking-widest">Subject</label>
-                      <input
-                        id="subject"
-                        name="subject"
-                        type="text"
-                        required
-                        value={formData.subject}
-                        onChange={handleInputChange}
-                        className="w-full bg-brand-input-bg-theme border border-brand-border-theme rounded-xl px-4 py-3 text-sm text-brand-text-title focus:outline-none placeholder:text-brand-text-muted/50"
-                        style={{ transition: "border-color 0.15s ease, box-shadow 0.15s ease" }}
-                        onFocus={e => { e.currentTarget.style.borderColor = "var(--accent-orange)"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(249,115,22,0.08)"; }}
-                        onBlur={e => { e.currentTarget.style.borderColor = ""; e.currentTarget.style.boxShadow = ""; }}
-                        placeholder="e.g. Web Development Inquiry"
-                      />
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="message" className="text-[10px] font-bold text-brand-text-muted uppercase tracking-widest">Message / Project Specs</label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        required
-                        rows={5}
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        className="w-full bg-brand-input-bg-theme border border-brand-border-theme rounded-xl px-4 py-3 text-sm text-brand-text-title focus:outline-none placeholder:text-brand-text-muted/50 leading-relaxed resize-none"
-                        style={{ transition: "border-color 0.15s ease, box-shadow 0.15s ease" }}
-                        onFocus={e => { e.currentTarget.style.borderColor = "var(--accent-orange)"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(249,115,22,0.08)"; }}
-                        onBlur={e => { e.currentTarget.style.borderColor = ""; e.currentTarget.style.boxShadow = ""; }}
-                        placeholder="Detail your app objectives, or use the Quote Builder above to auto-fill..."
-                      />
-                      <span className="text-[10px] text-brand-text-muted flex items-center gap-1.5">
-                        <HelpCircle className="w-3 h-3" />
-                        Clicking &apos;Apply Config&apos; in the Quote Builder auto-fills this field.
-                      </span>
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold uppercase tracking-wider text-white bg-brand-orange w-full focus:outline-none focus:ring-2 focus:ring-brand-orange disabled:opacity-50"
-                      style={{ transition: "background-color 0.15s ease, opacity 0.15s ease" }}
-                      onMouseEnter={e => !isSubmitting && (e.currentTarget.style.backgroundColor = "var(--accent-orange-hover)")}
-                      onMouseLeave={e => (e.currentTarget.style.backgroundColor = "")}
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
-                          Transmitting...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4" />
-                          Send Inquiry
-                        </>
-                      )}
-                    </button>
-                  </form>
-                )}
-              </div>
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/hire-us#estimator"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-brand-orange px-7 text-sm font-bold uppercase tracking-wider text-white"
+              >
+                Get Project Estimate
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/privacy-policy"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-brand-border-theme bg-brand-card-bg-theme px-7 text-sm font-bold uppercase tracking-wider text-brand-text-body"
+              >
+                Read Privacy Policy
+              </Link>
             </div>
           </div>
         </div>
