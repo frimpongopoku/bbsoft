@@ -6,24 +6,24 @@ import { Check, Shield, Layers, Rocket, Landmark, ChevronRight } from "lucide-re
 // ─── Static data defined OUTSIDE the component so it is never re-created ────
 const PROJECT_TYPES = [
   { id: "website",   name: "Corporate Website", basePrice: 1200, baseWeeks: 3,  description: "Polished static or CMS-backed marketing site.", tech: "Next.js / Tailwind CSS / MDX" },
-  { id: "webapp",    name: "Web Application",   basePrice: 3500, baseWeeks: 6,  description: "Interactive systems with complex roles & data.",  tech: "Next.js / TypeScript / PostgreSQL" },
-  { id: "mobileapp", name: "Mobile App",         basePrice: 4800, baseWeeks: 8,  description: "Native iOS & Android apps on the App Stores.",   tech: "React Native / Expo / Firebase" },
-  { id: "custom",    name: "Custom Software",    basePrice: 6000, baseWeeks: 10, description: "Enterprise solutions & WebSockets dashboards.",   tech: "Next.js / Go / Docker / AWS" },
+  { id: "webapp",    name: "Web Application",   basePrice: 1500, baseWeeks: 6,  description: "Interactive systems with complex roles & data.",  tech: "Next.js / TypeScript / PostgreSQL" },
+  { id: "mobileapp", name: "Mobile App",         basePrice: 1500, baseWeeks: 8,  description: "Native iOS & Android apps on the App Stores.",   tech: "React Native / Expo / Firebase" },
+  { id: "custom",    name: "Custom Software",    basePrice: 3000, baseWeeks: 10, description: "Enterprise solutions & WebSockets dashboards.",   tech: "Next.js / Go / Docker / AWS" },
 ] as const;
 
 const FEATURES = [
-  { id: "auth",     name: "User Authentication",   price: 600,  weeks: 1,   desc: "Sign-up, social login, roles & permissions" },
-  { id: "payments", name: "Payment Gateway",        price: 800,  weeks: 1.5, desc: "Paystack / Stripe / Flutterwave integrations" },
-  { id: "admin",    name: "Admin Dashboard",        price: 1200, weeks: 2,   desc: "CMS & full content management system" },
-  { id: "ai",       name: "AI & LLM Integration",  price: 1800, weeks: 3,   desc: "Custom chatbot, RAG pipelines, embeddings" },
-  { id: "realtime", name: "Real-time WebSockets",  price: 900,  weeks: 2,   desc: "Live chat, notifications, collaborative sync" },
-  { id: "push",     name: "Push Notifications",    price: 400,  weeks: 0.5, desc: "Browser & mobile direct alerts" },
+  { id: "auth",     name: "User Authentication",   price: 300,  weeks: 1,   desc: "Sign-up, social login, roles & permissions" },
+  { id: "payments", name: "Payment Gateway",        price: 600,  weeks: 1.5, desc: "Paystack / Stripe / Flutterwave integrations" },
+  { id: "admin",    name: "Admin Dashboard",        price: 500, weeks: 2,   desc: "CMS & full content management system" },
+  { id: "ai",       name: "AI & LLM Integration",  price: 500, weeks: 3,   desc: "Custom chatbot, RAG pipelines, embeddings" },
+  { id: "realtime", name: "Real-time WebSockets",  price: 600,  weeks: 2,   desc: "Live chat, notifications, collaborative sync" },
+  { id: "push",     name: "Push Notifications",    price: 250,  weeks: 0.5, desc: "Browser & mobile direct alerts" },
 ] as const;
 
 const DESIGNS = [
   { id: "standard",  name: "Standard Premium",      price: 0,    weeks: 0,   desc: "Clean, responsive corporate layouts." },
-  { id: "custom",    name: "Tailored Custom",        price: 1000, weeks: 1.5, desc: "Unique compositions with high visual polish." },
-  { id: "immersive", name: "Immersive / Futuristic", price: 2500, weeks: 3,   desc: "Animated material gradients, premium scroll effects." },
+  { id: "custom",    name: "Tailored Custom",        price: 400, weeks: 1.5, desc: "Unique compositions with high visual polish." },
+  { id: "immersive", name: "Immersive / Futuristic", price: 800, weeks: 3,   desc: "Animated material gradients, premium scroll effects." },
 ] as const;
 
 const SPEEDS = [
