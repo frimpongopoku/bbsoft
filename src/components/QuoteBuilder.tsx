@@ -34,12 +34,18 @@ interface QuoteBuilderProps {
 // ─── Small section header ────────────────────────────────────────────────────
 function StepHeader({ step, title }: { step: number; title: string }) {
   return (
-    <div className="flex items-center gap-3 mb-5">
-      <span className="flex items-center justify-center w-6 h-6 rounded-full bg-brand-orange text-white text-[10px] font-extrabold shrink-0">
-        {step}
-      </span>
-      <span className="text-xs font-bold uppercase tracking-widest text-brand-text-title">{title}</span>
+    <div className="mb-6 flex items-baseline gap-4">
+      <span className="font-mono text-xs text-brass">0{step}</span>
+      <h3 className="font-serif text-[28px] leading-none">{title}</h3>
     </div>
+  );
+}
+
+function SelectedDot() {
+  return (
+    <span className="ml-2 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-obsidian">
+      <Check className="h-3 w-3 text-champagne" strokeWidth={3} />
+    </span>
   );
 }
 
@@ -161,46 +167,43 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
   }, [selectedType, selectedDesign, selectedSpeed, selectedFeatures, totalCost, totalWeeks, mobileDeployOption]);
 
   const isMobile = selectedType.id === "mobileapp";
+  const card = "rounded-[24px] border border-obsidian/10 bg-white p-5 sm:p-8";
 
   return (
     <div className="w-full space-y-6">
-      <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* ── Configuration columns (8 cols) ─────────────────────────────── */}
-        <div className="lg:col-span-8 space-y-6">
-
+      <div className="grid w-full grid-cols-1 items-start gap-6 lg:grid-cols-12 lg:gap-8">
+        {/* ── Configuration ─────────────────────────────────────────────── */}
+        <div className="space-y-4 lg:col-span-8">
           {/* 1 — Project Type */}
-          <div className="rounded-2xl border border-brand-border-theme bg-brand-card-bg-theme p-6 shadow-sm">
-            <StepHeader step={1} title="Select Project Archetype" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {PROJECT_TYPES.map(type => (
-                <button
-                  key={type.id}
-                  type="button"
-                  onClick={() => handleTypeChange(type)}
-                  className={`option-btn p-4 focus:outline-none${selectedType.id === type.id ? " selected" : ""}`}
-                  aria-pressed={selectedType.id === type.id}
-                >
-                  <div className="flex justify-between items-start mb-1.5">
-                    <span className={`font-bold text-sm leading-tight ${selectedType.id === type.id ? "text-brand-orange" : "text-brand-text-title"}`}>
-                      {type.name}
-                    </span>
-                    {selectedType.id === type.id && (
-                      <span className="w-4 h-4 rounded-full bg-brand-orange flex items-center justify-center shrink-0 ml-2">
-                        <Check className="w-2.5 h-2.5 text-white stroke-[3]" />
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-[11px] text-brand-text-muted leading-relaxed mb-2">{type.description}</p>
-                  <span className="text-[11px] font-bold font-mono text-brand-orange">From ${type.basePrice.toLocaleString()}</span>
-                </button>
-              ))}
+          <div className={card}>
+            <StepHeader step={1} title="Project type" />
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {PROJECT_TYPES.map(type => {
+                const on = selectedType.id === type.id;
+                return (
+                  <button
+                    key={type.id}
+                    type="button"
+                    onClick={() => handleTypeChange(type)}
+                    className={`option-btn p-4${on ? " selected" : ""}`}
+                    aria-pressed={on}
+                  >
+                    <div className="mb-1.5 flex items-start justify-between">
+                      <span className="text-[15px] font-medium leading-tight">{type.name}</span>
+                      {on && <SelectedDot />}
+                    </div>
+                    <p className="mb-2 text-[13px] leading-relaxed text-stone">{type.description}</p>
+                    <span className="font-mono text-xs text-brass">From ${type.basePrice.toLocaleString()}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           {/* 2 — Features */}
-          <div className="rounded-2xl border border-brand-border-theme bg-brand-card-bg-theme p-6 shadow-sm">
-            <StepHeader step={2} title="Integrate Functional Modules" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className={card}>
+            <StepHeader step={2} title="Modules" />
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {FEATURES.map(feature => {
                 const on = selectedFeatures.includes(feature.id);
                 return (
@@ -208,21 +211,21 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
                     key={feature.id}
                     type="button"
                     onClick={() => toggleFeature(feature.id)}
-                    className={`option-btn p-4 flex items-start justify-between gap-3 focus:outline-none${on ? " selected" : ""}`}
+                    className={`option-btn flex items-start justify-between gap-3 p-4${on ? " selected" : ""}`}
                     aria-pressed={on}
                   >
                     <div className="min-w-0">
-                      <span className={`font-bold text-sm block mb-0.5 ${on ? "text-brand-orange" : "text-brand-text-title"}`}>
-                        {feature.name}
-                      </span>
-                      <span className="text-[11px] text-brand-text-muted block leading-relaxed">{feature.desc}</span>
+                      <span className="mb-0.5 block text-[15px] font-medium">{feature.name}</span>
+                      <span className="block text-[13px] leading-relaxed text-stone">{feature.desc}</span>
                     </div>
-                    <div className="flex flex-col items-end shrink-0 gap-1">
-                      <span className="text-[11px] font-bold font-mono text-brand-orange">+${feature.price}</span>
-                      <span className="text-[10px] text-brand-text-muted font-mono">+{feature.weeks}w</span>
-                      {/* Checkbox — no transition to avoid layout thrash */}
-                      <span className={`w-4 h-4 rounded border flex items-center justify-center mt-1 ${on ? "bg-brand-orange border-brand-orange" : "bg-brand-card-bg-theme border-brand-border-theme"}`} style={{ transition: "background-color 0.12s ease, border-color 0.12s ease" }}>
-                        {on && <Check className="w-2.5 h-2.5 text-white stroke-[3]" />}
+                    <div className="flex shrink-0 flex-col items-end gap-1">
+                      <span className="font-mono text-xs text-brass">+${feature.price}</span>
+                      <span className="font-mono text-[11px] text-stone">+{feature.weeks}w</span>
+                      <span
+                        className={`mt-1 flex h-5 w-5 items-center justify-center rounded-md border ${on ? "border-obsidian bg-obsidian" : "border-obsidian/20 bg-white"}`}
+                        style={{ transition: "background-color 0.12s ease, border-color 0.12s ease" }}
+                      >
+                        {on && <Check className="h-3 w-3 text-champagne" strokeWidth={3} />}
                       </span>
                     </div>
                   </button>
@@ -232,40 +235,37 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
           </div>
 
           {/* 3 — Design */}
-          <div className="rounded-2xl border border-brand-border-theme bg-brand-card-bg-theme p-6 shadow-sm">
-            <StepHeader step={3} title="Design Fidelity & Aesthetics" />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {DESIGNS.map(design => (
-                <button
-                  key={design.id}
-                  type="button"
-                  onClick={() => setSelectedDesign(design)}
-                  className={`option-btn p-4 flex flex-col gap-2 focus:outline-none${selectedDesign.id === design.id ? " selected" : ""}`}
-                  aria-pressed={selectedDesign.id === design.id}
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className={`font-bold text-sm ${selectedDesign.id === design.id ? "text-brand-orange" : "text-brand-text-title"}`}>
-                      {design.name}
+          <div className={card}>
+            <StepHeader step={3} title="Design fidelity" />
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              {DESIGNS.map(design => {
+                const on = selectedDesign.id === design.id;
+                return (
+                  <button
+                    key={design.id}
+                    type="button"
+                    onClick={() => setSelectedDesign(design)}
+                    className={`option-btn flex flex-col gap-2 p-4${on ? " selected" : ""}`}
+                    aria-pressed={on}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[15px] font-medium">{design.name}</span>
+                      {on && <SelectedDot />}
+                    </div>
+                    <span className="font-mono text-xs text-brass">
+                      {design.price === 0 ? "Included" : `+$${design.price.toLocaleString()}`}
                     </span>
-                    {selectedDesign.id === design.id && (
-                      <span className="w-4 h-4 rounded-full bg-brand-orange flex items-center justify-center shrink-0">
-                        <Check className="w-2.5 h-2.5 text-white stroke-[3]" />
-                      </span>
-                    )}
-                  </div>
-                  <span className="text-[11px] font-bold font-mono text-brand-orange">
-                    {design.price === 0 ? "Included" : `+$${design.price.toLocaleString()}`}
-                  </span>
-                  <p className="text-[11px] text-brand-text-muted leading-relaxed">{design.desc}</p>
-                </button>
-              ))}
+                    <p className="text-[13px] leading-relaxed text-stone">{design.desc}</p>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           {/* 4 — Delivery Speed */}
-          <div className="rounded-2xl border border-brand-border-theme bg-brand-card-bg-theme p-6 shadow-sm">
-            <StepHeader step={4} title="Delivery Timeline Urgency" />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className={card}>
+            <StepHeader step={4} title="Delivery pace" />
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
               {SPEEDS.map(speed => {
                 const Icon = SPEED_ICONS[speed.id];
                 const on   = selectedSpeed.id === speed.id;
@@ -274,17 +274,18 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
                     key={speed.id}
                     type="button"
                     onClick={() => setSelectedSpeed(speed)}
-                    className={`option-btn p-4 flex items-center gap-3 focus:outline-none${on ? " selected" : ""}`}
+                    className={`option-btn flex items-center gap-3 p-4${on ? " selected" : ""}`}
                     aria-pressed={on}
                   >
-                    <span className={`p-2 rounded-lg shrink-0 ${on ? "bg-brand-orange text-white" : "bg-brand-input-bg-theme text-brand-text-muted"}`} style={{ transition: "background-color 0.12s ease, color 0.12s ease" }}>
-                      <Icon className="w-4 h-4" />
+                    <span
+                      className={`shrink-0 rounded-lg p-2 ${on ? "bg-obsidian text-champagne" : "bg-linen text-stone"}`}
+                      style={{ transition: "background-color 0.12s ease, color 0.12s ease" }}
+                    >
+                      <Icon className="h-4 w-4" />
                     </span>
                     <div>
-                      <span className={`font-bold text-sm block ${on ? "text-brand-orange" : "text-brand-text-title"}`}>
-                        {speed.name}
-                      </span>
-                      <span className="text-[11px] text-brand-text-muted">{speed.label}</span>
+                      <span className="block text-[15px] font-medium">{speed.name}</span>
+                      <span className="text-[13px] text-stone">{speed.label}</span>
                     </div>
                   </button>
                 );
@@ -293,128 +294,88 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
           </div>
         </div>
 
-        {/* ── Summary sidebar (4 cols) ────────────────────────────────────── */}
-        <div className="lg:col-span-4 lg:sticky lg:top-28">
-          <div className="glass-panel rounded-2xl overflow-hidden">
-            {/* Header band */}
-            <div className="bg-gradient-to-r from-brand-orange to-brand-amber px-6 py-4">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/70 mb-1">Live Estimate</p>
-              <div className="flex items-end gap-2">
-                <span className="text-3xl font-extrabold text-white font-sans leading-none">
-                  ${grandTotal.toLocaleString()}
-                </span>
-                <span className="text-sm text-white/70 font-mono font-bold mb-0.5">USD</span>
-              </div>
-              <div className="flex items-center gap-1.5 mt-1.5">
-                <Landmark className="w-3 h-3 text-white/80" />
-                <span className="text-sm font-bold text-white/90">
-                  GH₵ {(grandTotal * USD_TO_GHS).toLocaleString()}
-                </span>
-              </div>
-              {deployFee > 0 && (
-                <p className="text-[10px] text-white/60 mt-1.5">
-                  Includes $50 Biibisoft publishing fee
-                </p>
-              )}
+        {/* ── Summary ───────────────────────────────────────────────────── */}
+        <div className="lg:sticky lg:top-28 lg:col-span-4">
+          <div className="rounded-[26px] bg-obsidian p-6 text-bone sm:p-8">
+            <p className="eyebrow text-[11px] text-ash">Live estimate</p>
+            <div className="mt-3 flex items-end gap-2" aria-live="polite">
+              <span className="font-serif text-[64px] leading-none text-champagne">${grandTotal.toLocaleString()}</span>
+              <span className="mb-1.5 font-mono text-xs text-fog">USD</span>
+            </div>
+            <div className="mt-2 flex items-center gap-1.5 font-mono text-sm text-fog">
+              <Landmark className="h-3.5 w-3.5" />
+              GH₵ {(grandTotal * USD_TO_GHS).toLocaleString()}
+            </div>
+            {deployFee > 0 && (
+              <p className="mt-1.5 text-xs text-ash">Includes $50 Biibisoft publishing fee</p>
+            )}
+
+            <dl className="mt-7 text-sm">
+              {[
+                ["Project", selectedType.name],
+                ["Timeline", `${totalWeeks} weeks`],
+                ["Modules", String(selectedFeatures.length)],
+                ["Pace", `${selectedSpeed.costMultiplier}×`],
+                ...(isMobile && mobileDeployOption
+                  ? [["Publishing", mobileDeployOption === "biibisoft-umbrella" ? "Biibisoft Umbrella" : "Own Brand"]]
+                  : []),
+              ].map(([label, value]) => (
+                <div key={label} className="flex items-center justify-between gap-4 border-b border-bone/10 py-3">
+                  <dt className="text-fog">{label}</dt>
+                  <dd className="text-right">{value}</dd>
+                </div>
+              ))}
+            </dl>
+
+            <div className="mt-5">
+              <p className="eyebrow text-[10px] text-ash">Recommended stack</p>
+              <p className="mt-1.5 font-mono text-[13px] leading-relaxed text-champagne">
+                {selectedType.tech.replaceAll(" / ", " · ")}
+              </p>
             </div>
 
-            {/* Details */}
-            <div className="p-6 space-y-5">
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between items-center">
-                  <span className="text-brand-text-muted">Project Type</span>
-                  <span className="font-bold text-brand-text-title text-right max-w-[55%] leading-tight">{selectedType.name}</span>
-                </div>
-                <div className="h-px bg-brand-border-theme/50" />
-                <div className="flex justify-between items-center">
-                  <span className="text-brand-text-muted">Timeline</span>
-                  <span className="font-bold text-brand-text-title">{totalWeeks} weeks</span>
-                </div>
-                <div className="h-px bg-brand-border-theme/50" />
-                <div className="flex justify-between items-center">
-                  <span className="text-brand-text-muted">Modules selected</span>
-                  <span className="font-bold text-brand-text-title">{selectedFeatures.length}</span>
-                </div>
-                <div className="h-px bg-brand-border-theme/50" />
-                <div className="flex justify-between items-center">
-                  <span className="text-brand-text-muted">Pace multiplier</span>
-                  <span className="font-bold text-brand-orange">{selectedSpeed.costMultiplier}×</span>
-                </div>
-                {isMobile && mobileDeployOption && (
-                  <>
-                    <div className="h-px bg-brand-border-theme/50" />
-                    <div className="flex justify-between items-center">
-                      <span className="text-brand-text-muted">Publishing</span>
-                      <span className="font-bold text-brand-text-title text-right text-xs max-w-[55%] leading-tight">
-                        {mobileDeployOption === "biibisoft-umbrella" ? "Biibisoft Umbrella" : "Own Brand"}
-                      </span>
-                    </div>
-                  </>
-                )}
-              </div>
-
-              {/* Tech recommendation */}
-              <div className="p-3.5 rounded-xl bg-brand-input-bg-theme border border-brand-border-theme">
-                <p className="text-[9px] font-bold uppercase tracking-widest text-brand-text-muted mb-1.5">Recommended Stack</p>
-                <p className="text-xs font-mono font-extrabold text-brand-orange leading-relaxed">{selectedType.tech}</p>
-              </div>
-
-              {/* Primary CTA */}
+            <div className="mt-7 flex flex-col gap-3">
               <button
                 type="button"
                 onClick={handleApply}
-                className="w-full py-3.5 rounded-xl bg-brand-orange hover:bg-brand-orange-hover text-white font-bold text-sm uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-brand-orange cursor-pointer flex items-center justify-center gap-2"
-                style={{ transition: "background-color 0.15s ease, box-shadow 0.15s ease" }}
+                className="flex h-14 w-full items-center justify-between rounded-full bg-champagne px-6 text-[15px] font-medium text-obsidian transition-colors hover:bg-bone"
               >
-                Apply Config & Request Quote
-                <ChevronRight className="w-4 h-4" />
+                Send this quote to us
+                <ChevronRight className="h-4 w-4" />
               </button>
-
-              {/* PDF Download CTA */}
               <button
                 type="button"
                 onClick={handleDownloadPDF}
                 disabled={isDownloadingPDF}
-                className="w-full py-3 rounded-xl border-2 border-brand-orange/40 hover:border-brand-orange text-brand-orange font-bold text-sm uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-brand-orange cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-                style={{
-                  background: "transparent",
-                  transition: "border-color 0.15s ease, background-color 0.15s ease",
-                }}
-                onMouseEnter={(e) => {
-                  if (!isDownloadingPDF) {
-                    e.currentTarget.style.backgroundColor = "rgba(249,115,22,0.06)";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "transparent";
-                }}
+                className="flex h-14 w-full items-center justify-center gap-2 rounded-full border border-bone/25 text-[15px] transition-colors hover:border-bone/60 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isDownloadingPDF ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Generating PDF...
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Generating PDF…
                   </>
                 ) : (
                   <>
-                    <Download className="w-4 h-4" />
-                    Download Quote PDF
+                    <Download className="h-4 w-4" />
+                    Download quote PDF
                   </>
                 )}
               </button>
-
-              {/* PDF error message */}
-              {pdfError && (
-                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs"
-                  style={{ animation: "fade-in 0.2s ease both" }}>
-                  <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                  <span>{pdfError}</span>
-                </div>
-              )}
-
-              <p className="text-[10px] text-brand-text-muted text-center leading-relaxed">
-                Rate: GHS {USD_TO_GHS} / $1 USD · Final quotes may vary by requirement.
-              </p>
             </div>
+
+            {pdfError && (
+              <div
+                role="alert"
+                className="mt-4 flex items-center gap-2 rounded-xl border border-[#9c3d1c]/50 bg-[#9c3d1c]/15 px-3 py-2 text-xs text-[#f0b9a4]"
+              >
+                <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                <span>{pdfError}</span>
+              </div>
+            )}
+
+            <p className="mt-5 text-center text-[11px] leading-relaxed text-ash">
+              Rate: GHS {USD_TO_GHS} / $1 USD · Final quotes may vary by requirement.
+            </p>
           </div>
         </div>
       </div>

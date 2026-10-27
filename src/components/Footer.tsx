@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EMAIL, PHONE_DISPLAY, mailtoLink, whatsappLink } from "@/content/contact";
 
 const FOOTER_LINKS = [
   { name: "Services", href: "/#services" },
@@ -19,9 +20,19 @@ export default function Footer() {
         <div className="flex flex-col gap-8 border-t border-bone/10 pt-8 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-2">
             <span className="text-[15px] text-ash">© {year} Biibisoft · Accra, Ghana</span>
-            <a href="mailto:message@biibisoft.com" className="ulink w-fit font-mono text-sm text-fog hover:text-bone">
-              message@biibisoft.com
-            </a>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm">
+              <a
+                href={whatsappLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ulink text-champagne hover:text-bone"
+              >
+                WhatsApp {PHONE_DISPLAY}
+              </a>
+              <a href={mailtoLink()} className="ulink text-fog hover:text-bone">
+                {EMAIL}
+              </a>
+            </div>
           </div>
           <nav aria-label="Footer">
             <ul className="flex flex-wrap gap-x-7 gap-y-3 text-[15px]">

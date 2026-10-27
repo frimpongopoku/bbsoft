@@ -128,7 +128,7 @@ export default function PrivacyPolicyPage() {
               <br />
               Email: <strong>message@biibisoft.com</strong>
               <br />
-              Phone: <strong>+2332052221387</strong>
+              Phone / WhatsApp: <strong>+233 39 114 2821</strong>
               <br />
               Address: <strong>Greater Accra Region, Ghana</strong>
             </p>
