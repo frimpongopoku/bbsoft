@@ -3,16 +3,17 @@
  * Biibisoft Project Quote — redesigned per biibisoft-quote-redesign-spec.md
  *
  * Design principles:
- *  - Navy (#1C2B3A) is the primary brand expression
- *  - Orange (#E8590C) is accent-only: price figure, key summary values, Total Estimate left border
+ *  - Obsidian (#0B0B0C) is the primary brand expression, on a bone/white page
+ *  - Champagne (#C9A96E) is the accent on dark surfaces; brass (#7A5C26) on light ones
  *  - Playfair Display for display text, Inter for everything else
  *  - GHS used instead of ₵ (Helvetica subset cannot render it)
  *  - No emoji / Unicode glyph icons for app stores
- *  - No orange backgrounds, no pill badges on tech stack, no empty states
+ *  - No accent backgrounds, no pill badges on tech stack, no empty states
  */
 
 import React from "react";
-import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Font, Svg, Line, Circle } from "@react-pdf/renderer";
+import { EMAIL, revealPhone } from "@/content/contact";
 
 // ─── Font registration ────────────────────────────────────────────────────────
 // Fonts are served from /public/fonts/ — bundled at build time, no network dependency.
@@ -38,19 +39,20 @@ Font.register({
 
 // ─── Palette ──────────────────────────────────────────────────────────────────
 const C = {
-  navy:        "#1C2B3A",
-  navyCard:    "#243347",
-  navyBorder:  "#2A3E55",
-  navyMuted:   "#527494",
-  orange:      "#E8590C",
+  obsidian:    "#0B0B0C",
+  graphite:    "#1E1C19",
+  umber:       "#2A2825",
+  ash:         "#8C877E",
+  champagne:   "#C9A96E",
+  brass:       "#7A5C26",
   white:       "#FFFFFF",
-  offWhite:    "#F7F6F4",
-  border:      "#E5E7EB",
-  borderLight: "#F0F0EF",
-  textPrimary: "#1C2B3A",
-  textSecond:  "#6B7A8D",
-  textLabel:   "#9AA5B4",
-  textBody:    "#4A5568",
+  offWhite:    "#F4F1EB",
+  border:      "#E6E0D4",
+  borderLight: "#EFEBE3",
+  textPrimary: "#0B0B0C",
+  textSecond:  "#6E6A63",
+  textLabel:   "#8C877E",
+  textBody:    "#55514A",
 };
 
 // ─── Stylesheet ───────────────────────────────────────────────────────────────
@@ -62,9 +64,15 @@ const s = StyleSheet.create({
     paddingBottom: 52,
   },
 
-  // ── Header (navy, page 1 only) ─────────────────────────────────────────────
+  brandInline: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
+
+  // ── Header (obsidian, page 1 only) ─────────────────────────────────────────────
   header: {
-    backgroundColor: C.navy,
+    backgroundColor: C.obsidian,
     paddingHorizontal: 36,
     paddingTop: 30,
     paddingBottom: 26,
@@ -81,25 +89,17 @@ const s = StyleSheet.create({
     gap: 7,
     marginBottom: 14,
   },
-  brandDot: {
-    width: 7,
-    height: 7,
-    borderRadius: 3.5,
-    backgroundColor: C.orange,
-    marginTop: 1,
-  },
   brandName: {
-    fontFamily: "Inter",
-    fontWeight: 600,
-    fontSize: 12,
+    fontFamily: "Playfair",
+    fontWeight: 400,
+    fontSize: 16,
     color: C.white,
-    letterSpacing: 1.8,
-  },
+},
   brandTagline: {
     fontFamily: "Inter",
     fontWeight: 400,
     fontSize: 8,
-    color: C.navyMuted,
+    color: C.ash,
     letterSpacing: 0.8,
     marginLeft: 14,
     marginTop: 1,
@@ -116,7 +116,7 @@ const s = StyleSheet.create({
     fontFamily: "Inter",
     fontWeight: 400,
     fontSize: 8,
-    color: C.navyMuted,
+    color: C.ash,
     letterSpacing: 1.5,
     textTransform: "uppercase",
   },
@@ -130,20 +130,20 @@ const s = StyleSheet.create({
     fontFamily: "Playfair",
     fontWeight: 700,
     fontSize: 38,
-    color: C.orange,
+    color: C.champagne,
     lineHeight: 1,
   },
   priceCurrencyLabel: {
     fontFamily: "Inter",
     fontWeight: 600,
     fontSize: 12,
-    color: C.navyMuted,
+    color: C.ash,
     marginBottom: 4,
   },
   priceDivider: {
     width: 1,
     height: 24,
-    backgroundColor: C.navyBorder,
+    backgroundColor: C.umber,
     marginBottom: 4,
     marginHorizontal: 2,
   },
@@ -151,17 +151,17 @@ const s = StyleSheet.create({
     fontFamily: "Inter",
     fontWeight: 400,
     fontSize: 11,
-    color: C.navyMuted,
+    color: C.ash,
     marginBottom: 4,
   },
 
   // ── Summary card (right column of header) ─────────────────────────────────
   summaryCard: {
     width: 168,
-    backgroundColor: C.navyCard,
+    backgroundColor: C.graphite,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: C.navyBorder,
+    borderColor: C.umber,
     paddingHorizontal: 14,
     paddingVertical: 12,
   },
@@ -173,13 +173,13 @@ const s = StyleSheet.create({
   },
   summaryRowDivider: {
     height: 0.5,
-    backgroundColor: C.navyBorder,
+    backgroundColor: C.umber,
   },
   summaryLabel: {
     fontFamily: "Inter",
     fontWeight: 400,
     fontSize: 8,
-    color: C.navyMuted,
+    color: C.ash,
     letterSpacing: 0.6,
     textTransform: "uppercase",
     flex: 1,
@@ -196,7 +196,7 @@ const s = StyleSheet.create({
     fontFamily: "Inter",
     fontWeight: 600,
     fontSize: 11,
-    color: C.orange,
+    color: C.champagne,
     textAlign: "right",
     flex: 1.2,
   },
@@ -238,11 +238,10 @@ const s = StyleSheet.create({
     backgroundColor: C.white,
   },
   runningHeaderBrand: {
-    fontFamily: "Inter",
-    fontWeight: 600,
-    fontSize: 9,
-    color: C.navy,
-    letterSpacing: 1.5,
+    fontFamily: "Playfair",
+    fontWeight: 400,
+    fontSize: 12,
+    color: C.obsidian,
   },
   runningHeaderRight: {
     fontFamily: "Inter",
@@ -328,7 +327,7 @@ const s = StyleSheet.create({
     fontFamily: "Inter",
     fontWeight: 600,
     fontSize: 11,
-    color: C.orange,
+    color: C.brass,
     textAlign: "right",
     flex: 1.4,
   },
@@ -384,10 +383,10 @@ const s = StyleSheet.create({
     letterSpacing: 0.1,
   },
 
-  // ── Total Estimate block — orange left border, no border-radius ───────────
+  // ── Total Estimate block — brass left border, no border-radius ───────────
   totalBlock: {
     borderLeftWidth: 3,
-    borderLeftColor: C.orange,
+    borderLeftColor: C.brass,
     backgroundColor: C.offWhite,
     paddingHorizontal: 16,
     paddingVertical: 13,
@@ -455,11 +454,10 @@ const s = StyleSheet.create({
     backgroundColor: C.white,
   },
   footerBrand: {
-    fontFamily: "Inter",
-    fontWeight: 600,
-    fontSize: 9,
-    color: C.navy,
-    letterSpacing: 1.5,
+    fontFamily: "Playfair",
+    fontWeight: 400,
+    fontSize: 11,
+    color: C.obsidian,
     marginBottom: 1,
   },
   footerTagline: {
@@ -485,7 +483,7 @@ const s = StyleSheet.create({
     color: C.textLabel,
   },
 
-  // ── Page 2: Section title with orange underline ───────────────────────────
+  // ── Page 2: Section title with brass underline ───────────────────────────
   p2SectionTitle: {
     fontSize: 12,
     fontFamily: "Inter",
@@ -494,7 +492,7 @@ const s = StyleSheet.create({
     letterSpacing: 0.3,
     marginBottom: 12,
     borderBottomWidth: 2,
-    borderBottomColor: C.orange,
+    borderBottomColor: C.brass,
     paddingBottom: 4,
     alignSelf: "flex-start",
   },
@@ -529,7 +527,7 @@ const s = StyleSheet.create({
     fontFamily: "Inter",
     fontWeight: 700,
     fontSize: 8,
-    color: C.orange,
+    color: C.brass,
     letterSpacing: 1,
     textTransform: "uppercase",
     marginBottom: 3,
@@ -539,7 +537,7 @@ const s = StyleSheet.create({
     fontFamily: "Inter",
     fontWeight: 700,
     fontSize: 8,
-    color: C.orange,
+    color: C.brass,
     letterSpacing: 1,
     textTransform: "uppercase",
     marginBottom: 3,
@@ -620,16 +618,31 @@ const FEATURE_LABELS: Record<string, string> = {
   push:     "Push Notifications",
 };
 
+// ─── Brand mark (Shared Stem) ─────────────────────────────────────────────────
+function BrandMark({ size, color }: { size: number; color: string }) {
+  return (
+    <Svg viewBox="6 4 100 96" width={size * (100 / 96)} height={size}>
+      <Line x1={16} y1={8} x2={16} y2={92} stroke={color} strokeWidth={11} />
+      <Circle cx={36} cy={68} r={20} fill="none" stroke={color} strokeWidth={11} />
+      <Circle cx={76} cy={68} r={20} fill="none" stroke={color} strokeWidth={11} />
+      <Line x1={56} y1={8} x2={56} y2={92} stroke={C.champagne} strokeWidth={11} />
+    </Svg>
+  );
+}
+
 // ─── Shared footer ────────────────────────────────────────────────────────────
 function DocFooter({ refNumber }: { refNumber: string }) {
   return (
     <View style={s.footer} fixed>
       <View>
-        <Text style={s.footerBrand}>BIIBISOFT</Text>
+        <View style={s.brandInline}>
+          <BrandMark size={10} color={C.obsidian} />
+          <Text style={s.footerBrand}>Biibisoft</Text>
+        </View>
         <Text style={s.footerTagline}>Delivery-Focused Engineering · Accra, Ghana</Text>
       </View>
       <View style={s.footerRight}>
-        <Text style={s.footerEmail}>message@biibisoft.com</Text>
+        <Text style={s.footerEmail}>{EMAIL} · WhatsApp {revealPhone().display}</Text>
         <Text style={s.footerRef}>
           {refNumber} · Valid 30 days · Final quote may vary by requirement
         </Text>
@@ -642,7 +655,10 @@ function DocFooter({ refNumber }: { refNumber: string }) {
 function RunningHeader({ refNumber }: { refNumber: string }) {
   return (
     <View style={s.runningHeader} fixed>
-      <Text style={s.runningHeaderBrand}>BIIBISOFT</Text>
+      <View style={s.brandInline}>
+        <BrandMark size={11} color={C.obsidian} />
+        <Text style={s.runningHeaderBrand}>Biibisoft</Text>
+      </View>
       <Text
         style={s.runningHeaderRight}
         render={({ pageNumber, totalPages }) =>
@@ -706,14 +722,14 @@ export default function QuotePDF({
           }
         />
 
-        {/* ── Navy header ───────────────────────────────────────────────── */}
+        {/* ── Obsidian header ───────────────────────────────────────────────── */}
         <View style={s.header}>
           {/* Left: branding + title + price */}
           <View style={s.headerLeft}>
             <View style={s.brandRow}>
-              <View style={s.brandDot} />
+              <BrandMark size={22} color={C.white} />
               <View>
-                <Text style={s.brandName}>BIIBISOFT</Text>
+                <Text style={s.brandName}>Biibisoft</Text>
                 <Text style={s.brandTagline}>ENGINEERING SERVICES · ACCRA, GHANA</Text>
               </View>
             </View>
@@ -729,7 +745,7 @@ export default function QuotePDF({
             </View>
           </View>
 
-          {/* Right: summary card — navy card receding inside the header */}
+          {/* Right: summary card — graphite card receding inside the header */}
           <View style={s.summaryCard}>
             <View style={s.summaryRow}>
               <Text style={s.summaryLabel}>Project</Text>
@@ -858,7 +874,7 @@ export default function QuotePDF({
             <Text style={s.stackValue}>{techStack}</Text>
           </View>
 
-          {/* Total Estimate — orange left border, no border-radius */}
+          {/* Total Estimate — brass left border, no border-radius */}
           <View style={s.totalBlock} wrap={false}>
             <Text style={s.totalEyebrow}>Total Estimate</Text>
             <View>
@@ -889,7 +905,7 @@ export default function QuotePDF({
           <RunningHeader refNumber={refNumber} />
 
           <View style={s.body}>
-            {/* Section title with tight orange underline */}
+            {/* Section title with tight brass underline */}
             <Text style={s.p2SectionTitle}>Platform Review Overview</Text>
 
             {/* Store cards — 2-column grid */}

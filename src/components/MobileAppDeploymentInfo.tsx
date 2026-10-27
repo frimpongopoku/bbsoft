@@ -1,37 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-  Apple,
-  ShoppingBag,
-  Clock,
-  FileText,
-  ShieldCheck,
-  CreditCard,
-  ChevronDown,
-  ChevronUp,
-  Building2,
-  Sparkles,
-  CheckCircle2,
-  AlertCircle,
-  Info,
-} from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
+
+type DeployOptionId = "own-brand" | "biibisoft-umbrella";
 
 // ─── Store comparison data ────────────────────────────────────────────────────
 const STORE_INFO = [
   {
     id: "apple",
-    icon: Apple,
     name: "Apple App Store",
-    color: "#555",
-    gradientFrom: "rgba(100,100,110,0.08)",
-    gradientTo: "rgba(80,80,90,0.03)",
-    borderColor: "rgba(100,100,110,0.18)",
-    accentColor: "#6e6e73",
     review: "1–3 business days",
     reviewNote: "Average ~24–48 hrs. Complex apps or those with in-app purchases / health features may take 5–7 days.",
     accountCost: "$99 / year",
-    accountLink: "Apple Developer Program",
     requiredFields: [
       "App name & subtitle",
       "Bundle ID (unique reverse-domain)",
@@ -54,21 +34,13 @@ const STORE_INFO = [
       "No misleading UI or dark patterns",
     ],
     notes: "Apple reviews are more stringent. Expect at least one rejection on first submission — this is normal. We handle resubmission at no extra cost.",
-    noteType: "warning" as const,
   },
   {
     id: "google",
-    icon: ShoppingBag,
     name: "Google Play Store",
-    color: "#34a853",
-    gradientFrom: "rgba(52,168,83,0.07)",
-    gradientTo: "rgba(52,168,83,0.02)",
-    borderColor: "rgba(52,168,83,0.18)",
-    accentColor: "#34a853",
     review: "1–3 days",
     reviewNote: "Automated checks are near-instant. Human policy review averages 2 hrs for simple apps. First-time submissions may take longer.",
     accountCost: "$25 one-time",
-    accountLink: "Google Play Console",
     requiredFields: [
       "Package name (unique, cannot be changed after publish)",
       "App title & short description (80 chars max)",
@@ -91,7 +63,6 @@ const STORE_INFO = [
       "64-bit support required for all native code",
     ],
     notes: "Google Play is generally faster to approve but enforces a strict annual API level upgrade. We keep your app compliant year-over-year.",
-    noteType: "info" as const,
   },
 ] as const;
 
@@ -99,12 +70,11 @@ const STORE_INFO = [
 const DEPLOY_OPTIONS = [
   {
     id: "own-brand",
-    icon: Building2,
     label: "Option A",
-    title: "Under Your Own Brand",
+    title: "Under your own brand",
     subtitle: "Full ownership & autonomy",
     description:
-      "Your company registers its own Apple Developer Program account and Google Play Console account. The app is published under your organisation's name — giving you full control over your developer presence, revenue, and analytics.",
+      "Your company registers its own Apple Developer Program and Google Play Console accounts. The app is published under your organisation’s name, giving you full control over your developer presence, revenue and analytics.",
     highlights: [
       "App published under your company name & identity",
       "You own all developer accounts & certificates",
@@ -112,21 +82,16 @@ const DEPLOY_OPTIONS = [
       "Biibisoft handles all technical submission tasks",
       "You pay Apple ($99/yr) & Google ($25 once) directly",
     ],
-    costNote: "Accounts are registered and owned by you. Biibisoft's development & submission work is covered in your project quote.",
-    tag: "Recommended for established brands",
-    tagColor: "brand-orange" as const,
-    borderColor: "var(--accent-orange)",
-    bgGradient: "rgba(249,115,22,0.06)",
-    selected: false,
+    costNote: "Accounts are yours. Our development & submission work is covered in your quote.",
+    tag: "For established brands",
   },
   {
     id: "biibisoft-umbrella",
-    icon: Sparkles,
     label: "Option B",
-    title: "Under Biibisoft Umbrella",
+    title: "Under the Biibisoft umbrella",
     subtitle: "Fast-track, zero account setup",
     description:
-      "We publish your app under the Biibisoft developer namespace. You skip the account registration process entirely — ideal for startups, MVPs, or clients who want to go live quickly without the administrative overhead.",
+      "We publish your app under the Biibisoft developer namespace. You skip account registration entirely — ideal for startups, MVPs, or anyone who wants to go live quickly without the admin.",
     highlights: [
       "$50 for your first app published under Biibisoft",
       "+$10 per additional app in the same Biibisoft space",
@@ -135,397 +100,148 @@ const DEPLOY_OPTIONS = [
       "App transfer to your own account available later",
     ],
     costNote: "First app: $50 · Each additional app: +$10",
-    tag: "Best for startups & MVPs",
-    tagColor: "brand-emerald" as const,
-    borderColor: "var(--accent-emerald)",
-    bgGradient: "rgba(52,168,83,0.06)",
-    selected: false,
+    tag: "For startups & MVPs",
   },
 ] as const;
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function StoreCard({ store }: { store: (typeof STORE_INFO)[number] }) {
-  const [expanded, setExpanded] = useState(false);
-  const Icon = store.icon;
-
+function CheckList({ items }: { items: readonly string[] }) {
   return (
-    <div
-      className="rounded-2xl border overflow-hidden"
-      style={{
-        borderColor: store.borderColor,
-        background: `linear-gradient(135deg, ${store.gradientFrom}, ${store.gradientTo})`,
-      }}
-    >
-      {/* Store header */}
-      <div className="px-5 py-4 flex items-center gap-3">
-        <div
-          className="p-2 rounded-xl shrink-0"
-          style={{ background: `${store.accentColor}18` }}
-        >
-          <Icon className="w-5 h-5" style={{ color: store.accentColor }} />
-        </div>
-        <div className="flex-1 min-w-0">
-          <h4
-            className="font-extrabold text-sm text-brand-text-title leading-tight"
-          >
-            {store.name}
-          </h4>
-          <div className="flex items-center gap-2 mt-0.5">
-            <Clock className="w-3 h-3 text-brand-text-muted shrink-0" />
-            <span className="text-[11px] text-brand-text-muted font-semibold">
-              Review: {store.review}
-            </span>
-          </div>
-        </div>
-        <div
-          className="text-right shrink-0"
-        >
-          <p className="text-[9px] font-bold uppercase tracking-widest text-brand-text-muted">Account</p>
-          <p
-            className="text-sm font-extrabold"
-            style={{ color: store.accentColor }}
-          >
-            {store.accountCost}
-          </p>
-        </div>
-      </div>
-
-      {/* Quick stat pills */}
-      <div className="px-5 pb-3 flex flex-wrap gap-2">
-        <span
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border"
-          style={{ borderColor: store.borderColor, color: store.accentColor, background: `${store.accentColor}0d` }}
-        >
-          <Clock className="w-2.5 h-2.5" />
-          {store.review}
-        </span>
-        <span
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border"
-          style={{ borderColor: store.borderColor, color: store.accentColor, background: `${store.accentColor}0d` }}
-        >
-          <CreditCard className="w-2.5 h-2.5" />
-          {store.accountCost}
-        </span>
-        <span
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border"
-          style={{ borderColor: store.borderColor, color: store.accentColor, background: `${store.accentColor}0d` }}
-        >
-          <FileText className="w-2.5 h-2.5" />
-          {store.requiredFields.length} required fields
-        </span>
-      </div>
-
-      {/* Expandable details */}
-      <button
-        type="button"
-        onClick={() => setExpanded((p) => !p)}
-        className="w-full flex items-center justify-between px-5 py-3 text-[11px] font-bold uppercase tracking-widest border-t cursor-pointer"
-        style={{
-          borderColor: store.borderColor,
-          color: store.accentColor,
-          background: `${store.accentColor}06`,
-          transition: "background-color 0.15s ease",
-        }}
-        aria-expanded={expanded}
-      >
-        <span>{expanded ? "Hide details" : "View requirements & criteria"}</span>
-        {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-      </button>
-
-      {expanded && (
-        <div className="px-5 py-4 space-y-4" style={{ background: `${store.accentColor}04` }}>
-          {/* Review time note */}
-          <p className="text-[11px] text-brand-text-body leading-relaxed italic border-l-2 pl-3" style={{ borderColor: store.accentColor }}>
-            {store.reviewNote}
-          </p>
-
-          {/* Required fields */}
-          <div>
-            <p className="text-[9px] font-bold uppercase tracking-widest text-brand-text-muted mb-2 flex items-center gap-1.5">
-              <FileText className="w-3 h-3" />
-              Required Submission Fields
-            </p>
-            <ul className="space-y-1.5">
-              {store.requiredFields.map((field) => (
-                <li key={field} className="flex items-start gap-2">
-                  <CheckCircle2
-                    className="w-3 h-3 shrink-0 mt-0.5"
-                    style={{ color: store.accentColor }}
-                  />
-                  <span className="text-[11px] text-brand-text-body leading-snug">{field}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Approval criteria */}
-          <div>
-            <p className="text-[9px] font-bold uppercase tracking-widest text-brand-text-muted mb-2 flex items-center gap-1.5">
-              <ShieldCheck className="w-3 h-3" />
-              Approval Criteria
-            </p>
-            <ul className="space-y-1.5">
-              {store.approvalCriteria.map((c) => (
-                <li key={c} className="flex items-start gap-2">
-                  <ShieldCheck
-                    className="w-3 h-3 shrink-0 mt-0.5"
-                    style={{ color: store.accentColor }}
-                  />
-                  <span className="text-[11px] text-brand-text-body leading-snug">{c}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Note */}
-          <div
-            className="flex items-start gap-2.5 p-3 rounded-xl"
-            style={{
-              background: store.noteType === "warning" ? "rgba(249,115,22,0.07)" : "rgba(52,168,83,0.07)",
-              border: `1px solid ${store.noteType === "warning" ? "rgba(249,115,22,0.2)" : "rgba(52,168,83,0.2)"}`,
-            }}
-          >
-            {store.noteType === "warning" ? (
-              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-brand-orange" />
-            ) : (
-              <Info className="w-4 h-4 shrink-0 mt-0.5" style={{ color: "#34a853" }} />
-            )}
-            <p className="text-[11px] text-brand-text-body leading-relaxed">{store.notes}</p>
-          </div>
-        </div>
-      )}
-    </div>
+    <ul className="space-y-2">
+      {items.map((item) => (
+        <li key={item} className="flex items-start gap-2.5 text-[13px] leading-snug text-taupe">
+          <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brass" strokeWidth={2.5} />
+          {item}
+        </li>
+      ))}
+    </ul>
   );
 }
 
-function DeployOptionCard({
-  option,
-  isSelected,
-  onSelect,
-}: {
-  option: (typeof DEPLOY_OPTIONS)[number];
-  isSelected: boolean;
-  onSelect: () => void;
-}) {
-  const Icon = option.icon;
-  const isOrange = option.tagColor === "brand-orange";
-
+function StoreCard({ store }: { store: (typeof STORE_INFO)[number] }) {
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className="text-left w-full rounded-2xl border-2 p-5 flex flex-col gap-3 focus:outline-none cursor-pointer"
-      style={{
-        borderColor: isSelected ? option.borderColor : "var(--border-theme)",
-        background: isSelected ? option.bgGradient : "var(--option-idle-bg)",
-        boxShadow: isSelected ? `0 0 0 3px ${option.borderColor}18` : "none",
-        transition: "border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease",
-      }}
-      aria-pressed={isSelected}
-    >
-      {/* Header row */}
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div
-            className="p-2.5 rounded-xl shrink-0"
-            style={{
-              background: isSelected ? `${option.borderColor}18` : "var(--input-bg)",
-              color: isSelected ? option.borderColor : "var(--text-muted)",
-              transition: "background-color 0.15s ease, color 0.15s ease",
-            }}
-          >
-            <Icon className="w-5 h-5" />
+    <div className="rounded-2xl bg-linen p-5">
+      <h4 className="font-serif text-[26px] leading-none">{store.name}</h4>
+      <dl className="mt-4 text-sm">
+        {[
+          ["Review", store.review],
+          ["Developer account", store.accountCost],
+          ["Required fields", String(store.requiredFields.length)],
+        ].map(([label, value]) => (
+          <div key={label} className="flex items-center justify-between gap-4 border-b border-obsidian/10 py-2.5">
+            <dt className="text-stone">{label}</dt>
+            <dd className="text-right font-mono text-[13px]">{value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <details className="group mt-3">
+        <summary className="flex cursor-pointer list-none items-center justify-between py-2 text-sm font-medium [&::-webkit-details-marker]:hidden">
+          Requirements & approval criteria
+          <ChevronDown className="h-4 w-4 text-brass transition-transform group-open:rotate-180" />
+        </summary>
+        <div className="space-y-5 pb-1 pt-3">
+          <p className="border-l-2 border-brass pl-3 text-[13px] italic leading-relaxed text-taupe">
+            {store.reviewNote}
+          </p>
+          <div>
+            <p className="eyebrow mb-2.5 text-[10px] text-stone">Submission fields</p>
+            <CheckList items={store.requiredFields} />
           </div>
           <div>
-            <p
-              className="text-[9px] font-bold uppercase tracking-widest mb-0.5"
-              style={{ color: isSelected ? option.borderColor : "var(--text-muted)" }}
-            >
-              {option.label}
-            </p>
-            <h4
-              className="font-extrabold text-sm text-brand-text-title leading-tight"
-            >
-              {option.title}
-            </h4>
-            <p className="text-[11px] text-brand-text-muted font-semibold">{option.subtitle}</p>
+            <p className="eyebrow mb-2.5 text-[10px] text-stone">Approval criteria</p>
+            <CheckList items={store.approvalCriteria} />
           </div>
+          <p className="rounded-xl bg-white px-4 py-3 text-[13px] leading-relaxed text-taupe">{store.notes}</p>
         </div>
-        <div
-          className="w-5 h-5 rounded-full border-2 shrink-0 flex items-center justify-center mt-0.5"
-          style={{
-            borderColor: isSelected ? option.borderColor : "var(--border-theme)",
-            background: isSelected ? option.borderColor : "transparent",
-            transition: "all 0.15s ease",
-          }}
-        >
-          {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
-        </div>
-      </div>
-
-      {/* Description */}
-      <p className="text-[12px] text-brand-text-body leading-relaxed">{option.description}</p>
-
-      {/* Highlights */}
-      <ul className="space-y-1.5">
-        {option.highlights.map((h) => (
-          <li key={h} className="flex items-start gap-2">
-            <CheckCircle2
-              className="w-3.5 h-3.5 shrink-0 mt-0.5"
-              style={{ color: isSelected ? option.borderColor : "var(--text-muted)" }}
-            />
-            <span className="text-[11px] text-brand-text-body leading-snug">{h}</span>
-          </li>
-        ))}
-      </ul>
-
-      {/* Cost note */}
-      <div
-        className="rounded-xl px-3 py-2 text-[11px] font-bold"
-        style={{
-          background: isSelected ? `${option.borderColor}10` : "var(--input-bg)",
-          color: isSelected ? option.borderColor : "var(--text-muted)",
-          border: `1px solid ${isSelected ? option.borderColor + "30" : "var(--border-theme)"}`,
-          transition: "all 0.15s ease",
-        }}
-      >
-        {option.costNote}
-      </div>
-
-      {/* Tag */}
-      <span
-        className="self-start text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border"
-        style={{
-          color: isOrange ? "var(--accent-orange)" : "var(--accent-emerald)",
-          borderColor: isOrange ? "rgba(249,115,22,0.3)" : "rgba(52,168,83,0.3)",
-          background: isOrange ? "rgba(249,115,22,0.07)" : "rgba(52,168,83,0.07)",
-        }}
-      >
-        {option.tag}
-      </span>
-    </button>
+      </details>
+    </div>
   );
 }
 
 // ─── Main export ──────────────────────────────────────────────────────────────
 interface MobileAppDeploymentInfoProps {
-  selectedDeployOption: "own-brand" | "biibisoft-umbrella" | null;
-  onDeployOptionChange: (id: "own-brand" | "biibisoft-umbrella") => void;
+  step: number;
+  selectedDeployOption: DeployOptionId | null;
+  onDeployOptionChange: (id: DeployOptionId) => void;
 }
 
 export default function MobileAppDeploymentInfo({
+  step,
   selectedDeployOption,
   onDeployOptionChange,
 }: MobileAppDeploymentInfoProps) {
   return (
-    <div
-      className="rounded-2xl border border-brand-border-theme overflow-hidden"
-      style={{
-        background: "linear-gradient(135deg, rgba(249,115,22,0.04) 0%, transparent 60%)",
-        animation: "fade-up 0.4s cubic-bezier(0.16,1,0.3,1) both",
-      }}
-    >
-      {/* Section header */}
-      <div className="px-6 py-5 border-b border-brand-border-theme flex items-start gap-4">
-        <div className="p-2.5 rounded-xl bg-brand-orange/10 text-brand-orange shrink-0">
-          <ShoppingBag className="w-5 h-5" />
-        </div>
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[9px] font-bold uppercase tracking-widest text-brand-orange border border-brand-orange/30 px-1.5 py-0.5 rounded-full">
-              Mobile App Stores
-            </span>
-            <span className="text-[9px] font-bold uppercase tracking-widest text-brand-text-muted border border-brand-border-theme px-1.5 py-0.5 rounded-full">
-              Important Info
-            </span>
-          </div>
-          <h3 className="text-base font-extrabold text-brand-text-title leading-tight">
-            App Store Deployment Guide
-          </h3>
-          <p className="text-[12px] text-brand-text-body leading-relaxed mt-1 max-w-xl">
-            Publishing a mobile app requires accounts on each platform’s developer program.
-            Review timelines, required assets, and approval criteria vary. Here’s everything
-            you need to know — and how Biibisoft can handle it for you.
-          </p>
-        </div>
+    <div className="animate-fade-up rounded-[24px] border border-obsidian/10 bg-white p-5 sm:p-8">
+      <div className="mb-3 flex items-baseline gap-4">
+        <span className="font-mono text-xs text-brass">0{step}</span>
+        <h3 className="font-serif text-[28px] leading-none">App store publishing</h3>
+      </div>
+      <p className="mb-7 max-w-xl text-[15px] leading-relaxed text-taupe">
+        Every mobile app needs a developer account on each store, and each store reviews it differently.
+        Choose how you&apos;d like to publish; we handle the submission either way.
+      </p>
+
+      {/* ── Publishing options ─────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {DEPLOY_OPTIONS.map((option) => {
+          const on = selectedDeployOption === option.id;
+          return (
+            <button
+              key={option.id}
+              type="button"
+              onClick={() => onDeployOptionChange(option.id)}
+              className={`option-btn flex flex-col gap-4 p-5${on ? " selected" : ""}`}
+              aria-pressed={on}
+            >
+              <div className="flex w-full items-start justify-between gap-3">
+                <div>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-brass">{option.label}</span>
+                  <span className="mt-1.5 block text-[17px] font-medium leading-tight">{option.title}</span>
+                  <span className="mt-0.5 block text-[13px] text-stone">{option.subtitle}</span>
+                </div>
+                <span
+                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${on ? "border-obsidian bg-obsidian" : "border-obsidian/20"}`}
+                >
+                  {on && <Check className="h-3 w-3 text-champagne" strokeWidth={3} />}
+                </span>
+              </div>
+              <p className="text-[13px] leading-relaxed text-taupe">{option.description}</p>
+              <CheckList items={option.highlights} />
+              <div className="mt-auto flex w-full flex-wrap items-center justify-between gap-2 border-t border-obsidian/10 pt-4">
+                <span className="font-mono text-xs text-obsidian">{option.costNote}</span>
+                <span className="rounded-full bg-linen px-2.5 py-1 text-[11px] text-stone">{option.tag}</span>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
-      <div className="p-6 space-y-8">
-        {/* ── App Store Comparison ─────────────────────────────────────────── */}
-        <div>
-          <p className="text-[9px] font-bold uppercase tracking-widest text-brand-text-muted mb-4 flex items-center gap-1.5">
-            <ShieldCheck className="w-3 h-3" />
-            Platform Review Process
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {STORE_INFO.map((store) => (
-              <StoreCard key={store.id} store={store} />
-            ))}
-          </div>
-        </div>
-
-        {/* ── Deployment Options ────────────────────────────────────────────── */}
-        <div>
-          <p className="text-[9px] font-bold uppercase tracking-widest text-brand-text-muted mb-1 flex items-center gap-1.5">
-            <Building2 className="w-3 h-3" />
-            Choose Your Publishing Option
-          </p>
-          <p className="text-[11px] text-brand-text-muted mb-4 leading-relaxed">
-            Select how you’d like your app to be published on the App Stores. This will be reflected in your final quote.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {DEPLOY_OPTIONS.map((opt) => (
-              <DeployOptionCard
-                key={opt.id}
-                option={opt}
-                isSelected={selectedDeployOption === opt.id}
-                onSelect={() => onDeployOptionChange(opt.id as "own-brand" | "biibisoft-umbrella")}
-              />
-            ))}
-          </div>
-
-          {/* Selection summary note */}
-          {selectedDeployOption && (
-            <div
-              className="mt-4 flex items-start gap-2.5 p-3.5 rounded-xl border"
-              style={{
-                background: selectedDeployOption === "biibisoft-umbrella"
-                  ? "rgba(52,168,83,0.06)"
-                  : "rgba(249,115,22,0.06)",
-                borderColor: selectedDeployOption === "biibisoft-umbrella"
-                  ? "rgba(52,168,83,0.2)"
-                  : "rgba(249,115,22,0.2)",
-                animation: "fade-in 0.3s ease both",
-              }}
-            >
-              <CheckCircle2
-                className="w-4 h-4 shrink-0 mt-0.5"
-                style={{
-                  color: selectedDeployOption === "biibisoft-umbrella"
-                    ? "var(--accent-emerald)"
-                    : "var(--accent-orange)",
-                }}
-              />
-              <p className="text-[11px] text-brand-text-body leading-relaxed">
-                {selectedDeployOption === "biibisoft-umbrella" ? (
-                  <>
-                    <strong className="text-brand-text-title">Biibisoft Umbrella selected.</strong>{" "}
-                    A deployment fee of <strong style={{ color: "var(--accent-emerald)" }}>$50</strong> will be added to your
-                    quote for the first app, and <strong style={{ color: "var(--accent-emerald)" }}>$10</strong> for
-                    each additional app under the Biibisoft namespace. No developer accounts needed from you.
-                  </>
-                ) : (
-                  <>
-                    <strong className="text-brand-text-title">Own Brand selected.</strong>{" "}
-                    You’ll register your Apple Developer ($99/yr) and Google Play ($25 once) accounts.
-                    Biibisoft will guide you through the setup and handle all technical submission work.
-                  </>
-                )}
-              </p>
-            </div>
+      {selectedDeployOption && (
+        <p className="mt-4 animate-fade-in rounded-2xl bg-obsidian px-5 py-4 text-[13px] leading-relaxed text-mist" aria-live="polite">
+          {selectedDeployOption === "biibisoft-umbrella" ? (
+            <>
+              <strong className="font-medium text-champagne">Biibisoft umbrella.</strong> A $50 publishing fee is
+              added for your first app, and $10 for each additional app under the Biibisoft namespace. No developer
+              accounts needed from you.
+            </>
+          ) : (
+            <>
+              <strong className="font-medium text-champagne">Your own brand.</strong> You&apos;ll register Apple
+              Developer ($99/yr) and Google Play ($25 once). We guide you through setup and handle all technical
+              submission work.
+            </>
           )}
-        </div>
+        </p>
+      )}
+
+      {/* ── Store comparison ───────────────────────────────────────────── */}
+      <p className="eyebrow mb-3 mt-9 text-[11px] text-stone">How each store reviews</p>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {STORE_INFO.map((store) => (
+          <StoreCard key={store.id} store={store} />
+        ))}
       </div>
     </div>
   );

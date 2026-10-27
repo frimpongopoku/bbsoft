@@ -292,6 +292,15 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
               })}
             </div>
           </div>
+
+          {/* 5 — App store publishing (mobile only) */}
+          {isMobile && (
+            <MobileAppDeploymentInfo
+              step={5}
+              selectedDeployOption={mobileDeployOption}
+              onDeployOptionChange={setMobileDeployOption}
+            />
+          )}
         </div>
 
         {/* ── Summary ───────────────────────────────────────────────────── */}
@@ -379,14 +388,6 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
           </div>
         </div>
       </div>
-
-      {/* ── Mobile App Deployment Info (conditional, full-width below grid) ── */}
-      {isMobile && (
-        <MobileAppDeploymentInfo
-          selectedDeployOption={mobileDeployOption}
-          onDeployOptionChange={setMobileDeployOption}
-        />
-      )}
     </div>
   );
 }
