@@ -906,7 +906,7 @@ export default function QuotePDF({
 
                 <Text style={s.storeSubLabel}>Key Requirements</Text>
                 <Text style={s.storeBody}>• Bundle ID (unique reverse-domain format)</Text>
-                <Text style={s.storeBody}>• Screenshots — 6.5" iPhone + 5.5" legacy + iPad</Text>
+                <Text style={s.storeBody}>• Screenshots — 6.5″ iPhone + 5.5″ legacy + iPad</Text>
                 <Text style={s.storeBody}>• Privacy Policy URL (mandatory for all apps)</Text>
                 <Text style={s.storeBody}>• Privacy Manifest file (required since 2024)</Text>
                 <Text style={s.storeBody}>• App icon — 1024×1024 px, no transparency</Text>
@@ -934,11 +934,11 @@ export default function QuotePDF({
                 <Text style={s.storeBody}>• Package name — cannot be changed after publish</Text>
                 <Text style={s.storeBody}>• App icon — 512×512 px</Text>
                 <Text style={s.storeBody}>• Feature graphic — 1024×500 px</Text>
-                <Text style={s.storeBody}>• Screenshots — phone, 7" tablet, 10" tablet</Text>
+                <Text style={s.storeBody}>• Screenshots — phone, 7″ tablet, 10″ tablet</Text>
                 <Text style={s.storeBody}>• Privacy Policy URL</Text>
                 <Text style={s.storeBody}>• Data Safety form (collection & sharing)</Text>
                 <Text style={s.storeBody}>• Signed Android App Bundle (AAB)</Text>
-                <Text style={s.storeBody}>• Target API level per Google's annual minimum</Text>
+                <Text style={s.storeBody}>• Target API level per Google’s annual minimum</Text>
 
                 <Text style={s.storeSubLabel}>Approval Notes</Text>
                 <Text style={s.storeBody}>

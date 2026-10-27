@@ -444,8 +444,8 @@ export default function MobileAppDeploymentInfo({
             App Store Deployment Guide
           </h3>
           <p className="text-[12px] text-brand-text-body leading-relaxed mt-1 max-w-xl">
-            Publishing a mobile app requires accounts on each platform's developer program.
-            Review timelines, required assets, and approval criteria vary. Here's everything
+            Publishing a mobile app requires accounts on each platform’s developer program.
+            Review timelines, required assets, and approval criteria vary. Here’s everything
             you need to know — and how Biibisoft can handle it for you.
           </p>
         </div>
@@ -472,7 +472,7 @@ export default function MobileAppDeploymentInfo({
             Choose Your Publishing Option
           </p>
           <p className="text-[11px] text-brand-text-muted mb-4 leading-relaxed">
-            Select how you'd like your app to be published on the App Stores. This will be reflected in your final quote.
+            Select how you’d like your app to be published on the App Stores. This will be reflected in your final quote.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {DEPLOY_OPTIONS.map((opt) => (
@@ -518,7 +518,7 @@ export default function MobileAppDeploymentInfo({
                 ) : (
                   <>
                     <strong className="text-brand-text-title">Own Brand selected.</strong>{" "}
-                    You'll register your Apple Developer ($99/yr) and Google Play ($25 once) accounts.
+                    You’ll register your Apple Developer ($99/yr) and Google Play ($25 once) accounts.
                     Biibisoft will guide you through the setup and handle all technical submission work.
                   </>
                 )}

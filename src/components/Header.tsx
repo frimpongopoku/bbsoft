@@ -1,206 +1,142 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu, X, ArrowUpRight, Cpu, Sun, Moon } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import Logo from "@/components/brand/Logo";
+
+const NAV_LINKS = [
+  { name: "Services", href: "/#services" },
+  { name: "Team", href: "/#team" },
+  { name: "Work", href: "/#work" },
+  { name: "Lab", href: "/#lab" },
+  { name: "Estimator", href: "/hire-us#estimator" },
+] as const;
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    // Sync state with DOM on mount safely to avoid synchronous cascading render warning
-    const isDark = document.documentElement.classList.contains("dark");
-    const timer = setTimeout(() => {
-      setTheme(isDark ? "dark" : "light");
-    }, 0);
-
-    // Listen for system preference changes
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-      const savedTheme = localStorage.getItem("theme");
-      if (!savedTheme) {
-        const nextTheme = e.matches ? "dark" : "light";
-        setTheme(nextTheme);
-        if (nextTheme === "dark") {
-          document.documentElement.classList.add("dark");
-          document.documentElement.setAttribute("data-theme", "dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-          document.documentElement.setAttribute("data-theme", "light");
-        }
-      }
-    };
-    mediaQuery.addEventListener("change", handleSystemThemeChange);
-
-    let scrollRaf = 0;
-    let lastScrolled = window.scrollY > 20;
-    const handleScroll = () => {
-      if (scrollRaf) return;
-      scrollRaf = window.requestAnimationFrame(() => {
-        scrollRaf = 0;
-        const next = window.scrollY > 20;
-        if (next !== lastScrolled) {
-          lastScrolled = next;
-          setIsScrolled(next);
-        }
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        setIsScrolled(window.scrollY > 24);
       });
     };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      clearTimeout(timer);
-      if (scrollRaf) window.cancelAnimationFrame(scrollRaf);
-      window.removeEventListener("scroll", handleScroll);
-      mediaQuery.removeEventListener("change", handleSystemThemeChange);
+      if (raf) window.cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
-  const toggleTheme = () => {
-    const nextTheme = theme === "light" ? "dark" : "light";
-    setTheme(nextTheme);
-    if (nextTheme === "dark") {
-      document.documentElement.classList.add("dark");
-      document.documentElement.setAttribute("data-theme", "dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      document.documentElement.setAttribute("data-theme", "light");
-      localStorage.setItem("theme", "light");
-    }
-  };
+  // Lock page scroll and allow Escape to close while the mobile menu is open.
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [isMenuOpen]);
 
-  const navLinks = [
-    { name: "Hire Us", href: "/hire-us" },
-    { name: "Services", href: "/hire-us#services" },
-    { name: "About", href: "/" },
-    { name: "Estimator", href: "/hire-us#estimator" },
-    { name: "Privacy Policy", href: "/privacy-policy" },
-  ];
+  const close = () => setIsMenuOpen(false);
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-[padding,background-color,border-color,box-shadow] duration-200 ease-out ${
-          isScrolled
-            ? "py-3 glass-panel border-b border-brand-border-theme"
-            : "py-6 bg-transparent"
+        className={`fixed inset-x-0 top-0 z-50 text-bone transition-[background-color,border-color] duration-300 border-b ${
+          isScrolled || isMenuOpen
+            ? "bg-obsidian/85 backdrop-blur-md border-bone/10"
+            : "bg-obsidian/60 backdrop-blur-sm border-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-2 group focus:outline-none"
-            aria-label="Biibisoft Home"
-          >
-            <div className="p-2 rounded-xl bg-linear-to-tr from-brand-orange to-brand-amber flex items-center justify-center text-white group-hover:scale-105 transition-transform">
-              <Cpu className="w-5 h-5" />
-            </div>
-            <span className="font-sans font-bold text-xl tracking-tight text-brand-text-title select-none">
-              Biibi<span className="text-brand-orange">soft</span>
-            </span>
-          </Link>
+        <div className="mx-auto flex h-[76px] max-w-[1360px] items-center justify-between gap-6 px-5 sm:px-8 lg:px-12">
+          <Logo />
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
+          <nav
+            aria-label="Primary"
+            className="hidden items-center gap-1 rounded-full border border-bone/10 bg-bone/[0.06] p-1.5 text-sm lg:flex"
+          >
+            {NAV_LINKS.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-semibold text-brand-text-body hover:text-brand-orange transition-colors duration-200"
+                className="rounded-full px-4 py-2 text-fog transition-colors hover:text-bone"
               >
                 {link.name}
               </Link>
             ))}
           </nav>
 
-          {/* CTA Button + Theme Toggle */}
-          <div className="hidden md:flex items-center gap-4">
-            <button
-              onClick={toggleTheme}
-              type="button"
-              className="p-2 rounded-full border border-brand-border-theme hover:border-brand-orange/40 bg-brand-card-bg-theme text-brand-text-body hover:text-brand-orange transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-orange"
-              aria-label="Toggle theme"
-            >
-              {theme === "light" ? (
-                <Moon className="w-4 h-4" />
-              ) : (
-                <Sun className="w-4 h-4" />
-              )}
-            </button>
-            
+          <div className="flex items-center gap-2.5">
             <Link
-              href="/hire-us#estimator"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-slate-900 hover:bg-slate-800 transition-colors focus:ring-2 focus:ring-brand-orange focus:outline-none dark:bg-brand-orange dark:hover:bg-brand-orange-hover"
+              href="/#enquire"
+              className="hidden h-11 items-center gap-2 rounded-full bg-bone px-5 text-[15px] font-medium text-obsidian transition-colors hover:bg-champagne sm:inline-flex"
             >
-              Get Estimation
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              Start a project
             </Link>
-          </div>
-
-          {/* Mobile Buttons */}
-          <div className="flex items-center gap-2 md:hidden">
             <button
-              onClick={toggleTheme}
               type="button"
-              className="p-2 rounded-full border border-brand-border-theme bg-brand-card-bg-theme text-brand-text-body hover:text-brand-orange transition-colors cursor-pointer focus:outline-none"
-              aria-label="Toggle theme"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-bone/25 lg:hidden"
             >
-              {theme === "light" ? (
-                <Moon className="w-4 h-4" />
-              ) : (
-                <Sun className="w-4 h-4" />
-              )}
-            </button>
-            
-            <button
-              className="p-2 rounded-lg text-brand-text-body hover:text-brand-text-title hover:bg-brand-card-bg-theme transition-colors focus:outline-none cursor-pointer"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-expanded={isMobileMenuOpen}
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
-        </div>
-
-        {/* Scroll Progress Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-border-theme">
-          <div className="scroll-progress-indicator h-full bg-linear-to-r from-brand-orange via-brand-amber to-brand-orange w-full" />
         </div>
       </header>
 
-      {/* Mobile Menu Panel */}
       <div
-        className={`fixed inset-0 z-40 bg-brand-card-bg-theme/95 backdrop-blur-md md:hidden transition-transform duration-300 ease-in-out ${
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        id="mobile-menu"
+        className={`fixed inset-0 z-40 bg-obsidian text-bone transition-opacity duration-300 lg:hidden ${
+          isMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
+        aria-hidden={!isMenuOpen}
+        inert={!isMenuOpen}
       >
-        <div className="flex flex-col h-full justify-center p-8">
-          <nav className="flex flex-col gap-6 text-center">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-2xl font-bold text-brand-text-body hover:text-brand-orange active:text-brand-orange-hover transition-colors duration-200"
-              >
-                {link.name}
-              </Link>
+        <nav
+          aria-label="Mobile"
+          className="flex h-full flex-col justify-between px-5 pb-10 pt-28 sm:px-8"
+        >
+          <ul className="flex flex-col">
+            {NAV_LINKS.map((link, i) => (
+              <li key={link.name} className="border-b border-bone/10">
+                <Link
+                  href={link.href}
+                  onClick={close}
+                  className="flex items-baseline justify-between py-5"
+                >
+                  <span className="font-serif text-5xl leading-none">{link.name}</span>
+                  <span className="font-mono text-xs text-ash">0{i + 1}</span>
+                </Link>
+              </li>
             ))}
+          </ul>
+          <div className="flex flex-col gap-4">
             <Link
-              href="/hire-us#estimator"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="mt-8 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-semibold uppercase tracking-wider text-white bg-slate-900 hover:bg-slate-800 transition-colors dark:bg-brand-orange dark:hover:bg-brand-orange-hover"
+              href="/#enquire"
+              onClick={close}
+              className="inline-flex h-14 items-center justify-between rounded-full bg-champagne px-7 text-base font-medium text-obsidian"
             >
-              Get Estimation
-              <ArrowUpRight className="w-4 h-4" />
+              Start a project
+              <ArrowUpRight className="h-5 w-5" />
             </Link>
-          </nav>
-        </div>
+            <a href="mailto:message@biibisoft.com" className="text-center font-mono text-sm text-fog">
+              message@biibisoft.com
+            </a>
+          </div>
+        </nav>
       </div>
     </>
   );

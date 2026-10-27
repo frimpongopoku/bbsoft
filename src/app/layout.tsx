@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -14,15 +14,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+});
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1.0,
+  themeColor: "#0b0b0c",
 };
 
 export const metadata: Metadata = {
-  title: "Biibisoft | Product Innovation and Engineering Services",
+  title: "Biibisoft — Software, considered.",
   description:
-    "Biibisoft is a Ghanaian software company that builds original digital products and partners with organizations to engineer high-performance web, mobile, and AI systems.",
+    "Biibisoft is a Ghanaian product lab and engineering studio. We design, build and run our own products, and bring the same care to the web, mobile and AI products we build for you.",
   keywords: [
     "Biibisoft",
     "Software Company Ghana",
@@ -59,31 +67,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased scroll-smooth`}
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  const savedTheme = localStorage.getItem('theme');
-                  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  const theme = savedTheme || systemTheme;
-                  if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                    document.documentElement.setAttribute('data-theme', 'light');
-                  }
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <Header />
         <main className="grow flex flex-col w-full">
           {children}

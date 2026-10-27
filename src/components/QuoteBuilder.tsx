@@ -3,15 +3,9 @@
 import React, { useState, useCallback } from "react";
 import { Check, Shield, Layers, Rocket, Landmark, ChevronRight, Download, Loader2, AlertCircle } from "lucide-react";
 import MobileAppDeploymentInfo from "./MobileAppDeploymentInfo";
+import { PROJECT_TYPES, SPEEDS, applyPace, type ProjectType, type Speed } from "@/lib/pricing";
 
 // ─── Static data defined OUTSIDE the component so it is never re-created ────
-const PROJECT_TYPES = [
-  { id: "website",   name: "Corporate Website", basePrice: 1200, baseWeeks: 3,  description: "Polished static or CMS-backed marketing site.", tech: "Next.js / Tailwind CSS / MDX" },
-  { id: "webapp",    name: "Web Application",   basePrice: 1500, baseWeeks: 6,  description: "Interactive systems with complex roles & data.",  tech: "Next.js / TypeScript / PostgreSQL" },
-  { id: "mobileapp", name: "Mobile App",         basePrice: 1500, baseWeeks: 8,  description: "Native iOS & Android apps on the App Stores.",   tech: "React Native / Expo / Firebase" },
-  { id: "custom",    name: "Custom Software",    basePrice: 3000, baseWeeks: 10, description: "Enterprise solutions & WebSockets dashboards.",   tech: "Next.js / Go / Docker / AWS" },
-] as const;
-
 const FEATURES = [
   { id: "auth",     name: "User Authentication",   price: 300,  weeks: 1,   desc: "Sign-up, social login, roles & permissions" },
   { id: "payments", name: "Payment Gateway",        price: 600,  weeks: 1.5, desc: "Paystack / Stripe / Flutterwave integrations" },
@@ -27,17 +21,11 @@ const DESIGNS = [
   { id: "immersive", name: "Immersive / Futuristic", price: 800, weeks: 3,   desc: "Animated material gradients, premium scroll effects." },
 ] as const;
 
-const SPEEDS = [
-  { id: "normal", name: "Normal Pace",       costMultiplier: 1.0, timeMultiplier: 1.0, icon: Layers, label: "Base pricing" },
-  { id: "fast",   name: "Fast-Track",        costMultiplier: 1.3, timeMultiplier: 0.7, icon: Shield, label: "30% premium" },
-  { id: "rush",   name: "Rush (Expedited)",  costMultiplier: 1.6, timeMultiplier: 0.5, icon: Rocket, label: "60% premium" },
-] as const;
+const SPEED_ICONS = { normal: Layers, fast: Shield, rush: Rocket } as const;
 
 const USD_TO_GHS = 14.8;
 
-type ProjectType = typeof PROJECT_TYPES[number];
 type Design      = typeof DESIGNS[number];
-type Speed       = typeof SPEEDS[number];
 
 interface QuoteBuilderProps {
   onSelectEstimate: (text: string) => void;
@@ -78,8 +66,7 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
   const featureWeeks = FEATURES.filter(f => selectedFeatures.includes(f.id)).reduce((s, f) => s + f.weeks, 0);
   const rawCost      = selectedType.basePrice + featurePrice + selectedDesign.price;
   const rawWeeks     = selectedType.baseWeeks + featureWeeks + selectedDesign.weeks;
-  const totalCost    = Math.round(rawCost * selectedSpeed.costMultiplier);
-  const totalWeeks   = Math.max(2, Math.round(rawWeeks * selectedSpeed.timeMultiplier * 10) / 10);
+  const { cost: totalCost, weeks: totalWeeks } = applyPace(rawCost, rawWeeks, selectedSpeed);
 
   // Add Biibisoft umbrella fee if applicable
   const deployFee    = (selectedType.id === "mobileapp" && mobileDeployOption === "biibisoft-umbrella") ? 50 : 0;
@@ -136,7 +123,6 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
       // a PDFInstance with a toBlob() method that returns Promise<Blob>.
       // Cast via any because react-pdf uses its own internal renderer —
       // the element type doesn't overlap with standard ReactElement<DocumentProps>.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const instance = pdf(
         React.createElement(QuotePDF, {
           projectType:        selectedType.name,
@@ -151,7 +137,7 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
           mobileDeployOption,
           generatedAt,
           refNumber,
-        }) as any
+        }) as any // eslint-disable-line @typescript-eslint/no-explicit-any
       );
 
       const blob = await instance.toBlob();
@@ -281,7 +267,7 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
             <StepHeader step={4} title="Delivery Timeline Urgency" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {SPEEDS.map(speed => {
-                const Icon = speed.icon;
+                const Icon = SPEED_ICONS[speed.id];
                 const on   = selectedSpeed.id === speed.id;
                 return (
                   <button
