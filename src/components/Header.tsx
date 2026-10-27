@@ -5,7 +5,8 @@ import Link from "next/link";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import Logo from "@/components/brand/Logo";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
-import { EMAIL, mailtoLink, whatsappLink } from "@/content/contact";
+import { EMAIL, mailtoLink } from "@/content/contact";
+import { WhatsAppLink } from "@/components/Phone";
 
 const NAV_LINKS = [
   { name: "Services", href: "/#services" },
@@ -135,15 +136,13 @@ export default function Header() {
               <ArrowUpRight className="h-5 w-5" />
             </Link>
             <div className="grid grid-cols-2 gap-3">
-              <a
-                href={whatsappLink()}
-                target="_blank"
-                rel="noopener noreferrer"
+              <WhatsAppLink
+                onClick={close}
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-bone/20 text-sm"
               >
                 <WhatsAppIcon className="h-4 w-4" />
                 WhatsApp
-              </a>
+              </WhatsAppLink>
               <a
                 href={mailtoLink()}
                 aria-label={`Email ${EMAIL}`}

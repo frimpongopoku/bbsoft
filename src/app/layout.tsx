@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { EMAIL, SITE_URL } from "@/content/contact";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,36 +28,68 @@ export const viewport: Viewport = {
   themeColor: "#0b0b0c",
 };
 
+const DESCRIPTION =
+  "Biibisoft is a software development studio in Accra, Ghana. We design, build and launch websites, web apps, mobile apps and AI systems for companies and first-time founders, and run products of our own.";
+
 export const metadata: Metadata = {
-  title: "Biibisoft — Software, considered.",
-  description:
-    "Biibisoft is a Ghanaian product lab and engineering studio. We design, build and run our own products, and bring the same care to the web, mobile and AI products we build for you.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Biibisoft — Software development studio in Accra, Ghana",
+    template: "%s — Biibisoft",
+  },
+  description: DESCRIPTION,
+  applicationName: "Biibisoft",
   keywords: [
     "Biibisoft",
-    "Software Company Ghana",
-    "Product Innovation",
-    "Web Development Ghana",
-    "Mobile App Development",
-    "AI Engineering",
-    "Custom Software Solutions",
+    "software development company Ghana",
+    "software company Accra",
+    "web development Ghana",
+    "mobile app development Ghana",
+    "app developers Accra",
+    "AI development Ghana",
+    "MVP development for startups",
+    "custom software development",
+    "hire developers Ghana",
   ],
-  authors: [{ name: "Biibisoft" }],
-  robots: "index, follow",
+  authors: [{ name: "Biibisoft", url: SITE_URL }],
+  creator: "Biibisoft",
+  alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
   openGraph: {
     type: "website",
     locale: "en_GH",
-    url: "https://biibisoft.com",
-    title: "Biibisoft | Product Innovation and Engineering Services",
-    description:
-      "Ghanaian software company building internal products and delivering engineering services for client teams.",
+    url: "/",
     siteName: "Biibisoft",
+    title: "Biibisoft — Software, considered.",
+    description: DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Biibisoft | Product Innovation and Engineering Services",
-    description:
-      "Ghanaian software company for innovation-led products and partner engineering.",
+    title: "Biibisoft — Software, considered.",
+    description: DESCRIPTION,
   },
+  formatDetection: { telephone: false, email: false, address: false },
+};
+
+// Structured data for search engines. The phone number is deliberately left out.
+const ORGANIZATION_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${SITE_URL}/#organization`,
+  name: "Biibisoft",
+  url: SITE_URL,
+  logo: `${SITE_URL}/brand/biibisoft-mark.svg`,
+  image: `${SITE_URL}/opengraph-image`,
+  description: DESCRIPTION,
+  email: EMAIL,
+  address: { "@type": "PostalAddress", addressLocality: "Accra", addressRegion: "Greater Accra", addressCountry: "GH" },
+  areaServed: "Worldwide",
+  knowsAbout: ["Web development", "Mobile app development", "Custom software", "Artificial intelligence"],
+  contactPoint: { "@type": "ContactPoint", contactType: "sales", email: EMAIL, availableLanguage: ["English"] },
 };
 
 export default function RootLayout({
@@ -70,6 +103,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c") }}
+        />
         <Header />
         <main className="grow flex flex-col w-full">
           {children}

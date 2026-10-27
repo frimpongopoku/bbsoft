@@ -1,6 +1,7 @@
 import Hero from "@/components/home/Hero";
 import Metrics from "@/components/home/Metrics";
 import Crafts from "@/components/home/Crafts";
+import Audiences from "@/components/home/Audiences";
 import Team from "@/components/home/Team";
 import Work from "@/components/home/Work";
 import Lab from "@/components/home/Lab";
@@ -13,6 +14,7 @@ export default function Home() {
       <Hero />
       <Metrics />
       <Crafts />
+      <Audiences />
       <Team />
       <Work />
       <Lab />

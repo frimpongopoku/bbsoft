@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { STACK } from "@/content/home";
 
@@ -35,7 +34,7 @@ export default function Hero() {
 
       <div className="relative flex flex-1 flex-col items-center justify-center px-5 pb-16 pt-32 text-center sm:px-8">
         <p className="eyebrow focus-in text-mist" style={{ animationDelay: "0.1s" }}>
-          Product lab &amp; engineering studio · Accra
+          Web, mobile &amp; AI product studio · Accra, Ghana
         </p>
         <h1 className="mt-7 text-[clamp(64px,13vw,210px)] font-normal leading-[0.86] tracking-[-0.06em]">
           <span className="focus-in" style={{ animationDelay: "0.32s" }}>
@@ -50,26 +49,26 @@ export default function Hero() {
           className="focus-in mt-9 max-w-[600px] text-[clamp(17px,1.4vw,20px)] font-light leading-relaxed text-mist"
           style={{ animationDelay: "1.1s" }}
         >
-          We design, build and run our own products, and bring that same care to the web,
-          mobile and AI products we build for you.
+          From first-time founders to established companies, we design, build and launch web,
+          mobile and AI products, with the same care we give the products we run ourselves.
         </p>
-        <div
-          className="focus-in mt-9 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row"
-          style={{ animationDelay: "1.1s" }}
-        >
-          <Link
-            href="#enquire"
-            className="inline-flex h-14 items-center justify-center gap-3 rounded-full bg-champagne px-7 text-base font-medium text-obsidian transition-colors hover:bg-bone"
-          >
-            Start a project
-            <ArrowUpRight className="h-[18px] w-[18px]" />
-          </Link>
-          <Link
-            href="#work"
-            className="inline-flex h-14 items-center justify-center rounded-full border border-bone/25 bg-obsidian/40 px-7 text-base transition-colors hover:border-bone/60"
-          >
-            Browse our work
-          </Link>
+        {/* .focus-in forces inline-block, so the flex row lives on an inner wrapper */}
+        <div className="focus-in mt-9 w-full sm:w-auto" style={{ animationDelay: "1.1s" }}>
+          <div className="flex flex-col justify-center gap-3 sm:flex-row">
+            <a
+              href="#enquire"
+              className="inline-flex h-14 items-center justify-center gap-3 rounded-full bg-champagne px-7 text-base font-medium text-obsidian transition-colors hover:bg-bone"
+            >
+              Start a project
+              <ArrowUpRight className="h-[18px] w-[18px]" />
+            </a>
+            <a
+              href="#lab"
+              className="inline-flex h-14 items-center justify-center rounded-full border border-bone/25 bg-obsidian/40 px-7 text-base transition-colors hover:border-bone/60"
+            >
+              See what we&apos;ve built
+            </a>
+          </div>
         </div>
       </div>
 

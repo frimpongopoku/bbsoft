@@ -1,5 +1,7 @@
+import { LAB } from "@/content/home";
+
 const METRICS = [
-  { value: "2", label: "engines — our Lab and our Studio" },
+  { value: String(LAB.length), label: "products of our own, live today" },
   { value: "4", label: "build tracks, web to custom" },
   { value: "3", unit: " wks", label: "typical website, scope to live" },
   { value: "$1.2k", label: "projects start from", accent: true },

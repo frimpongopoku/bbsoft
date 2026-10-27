@@ -6,9 +6,10 @@ import { ArrowDown, ArrowRight } from "lucide-react";
 import QuoteBuilder from "@/components/QuoteBuilder";
 import ContactChannels from "@/components/ContactChannels";
 import EnquiryForm from "@/components/EnquiryForm";
+import Audiences from "@/components/home/Audiences";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { CRAFTS } from "@/content/home";
-import { whatsappLink } from "@/content/contact";
+import { WhatsAppLink } from "@/components/Phone";
 
 const JUMP_LINKS = [
   { href: "#services", label: "What we build" },
@@ -45,8 +46,9 @@ export default function HireUsPage() {
             <span className="accent-serif text-champagne">your</span> product.
           </h1>
           <p className="mt-8 max-w-[600px] text-[clamp(17px,1.4vw,20px)] font-light leading-relaxed text-mist">
-            A team that has shipped at Slack, Google and Andela, a studio that runs its own products,
-            and pricing you can see before you commit.
+            Whether you&apos;re a company with a roadmap or a founder with a first idea: a team that has
+            shipped at Slack, Google and Andela, a studio that runs its own products, and pricing you can
+            see before you commit.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -56,15 +58,13 @@ export default function HireUsPage() {
               Estimate your project
               <ArrowDown className="h-[18px] w-[18px]" />
             </Link>
-            <a
-              href={whatsappLink("Hi Biibisoft, I'd like to talk about a project.")}
-              target="_blank"
-              rel="noopener noreferrer"
+            <WhatsAppLink
+              text="Hi Biibisoft, I'd like to talk about a project."
               className="inline-flex h-14 items-center justify-center gap-3 rounded-full border border-bone/25 px-7 text-base transition-colors hover:border-bone/60"
             >
               <WhatsAppIcon className="h-5 w-5" />
               WhatsApp us
-            </a>
+            </WhatsAppLink>
           </div>
 
           {/* On-page index */}
@@ -89,8 +89,12 @@ export default function HireUsPage() {
         </div>
       </section>
 
+      <div className="pt-24 md:pt-32">
+        <Audiences />
+      </div>
+
       {/* ── Services ─────────────────────────────────────────────── */}
-      <section id="services" className="mx-auto w-full max-w-[1360px] px-5 py-24 sm:px-8 md:py-32 lg:px-12">
+      <section id="services" className="mx-auto w-full max-w-[1360px] px-5 pb-24 sm:px-8 md:pb-32 lg:px-12">
         <p className="eyebrow text-stone">( What we build )</p>
         <h2 className={`mt-5 ${heading}`}>
           Five crafts, <span className="accent-serif text-brass">one standard.</span>
