@@ -18,14 +18,16 @@ export default function Crafts() {
           <br />
           <span className="accent-serif text-brass">five crafts.</span>
         </h2>
-        <p className="eyebrow hidden text-stone lg:block">Hover a panel to open it</p>
+        <Link href="/services" className="ulink eyebrow text-stone hover:text-obsidian">
+          All services →
+        </Link>
       </div>
 
       <div className="xp-row">
         {CRAFTS.map((craft, i) => (
           <Link
             key={craft.name}
-            href="/hire-us#estimator"
+            href={`/services/${craft.slug}`}
             data-open={i === 0 ? "" : undefined}
             className={`xp block ${TONES[i]}`}
           >

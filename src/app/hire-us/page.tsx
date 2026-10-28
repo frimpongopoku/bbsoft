@@ -103,7 +103,7 @@ export default function HireUsPage() {
           {CRAFTS.map((craft, i) => (
             <li key={craft.name}>
               <Link
-                href="#estimator"
+                href={`/services/${craft.slug}`}
                 className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-4 gap-y-2 border-b border-obsidian/15 px-1 py-7 transition-colors hover:bg-white/60 md:grid-cols-[3rem_minmax(0,1.1fr)_minmax(0,1.4fr)_minmax(0,1fr)_auto] md:gap-x-8 md:py-9"
               >
                 <span className="font-mono text-[13px] text-stone">0{i + 1}</span>

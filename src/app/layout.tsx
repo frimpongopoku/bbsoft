@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { EMAIL, SITE_URL } from "@/content/contact";
+import { SERVICES } from "@/content/services";
+import JsonLd from "@/components/JsonLd";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +46,10 @@ export const metadata: Metadata = {
     "software development company Ghana",
     "software company Accra",
     "web development Ghana",
+    "website design Accra",
+    "software developers for hire",
+    "AI integration for businesses",
+    "AI consulting Ghana",
     "mobile app development Ghana",
     "app developers Accra",
     "AI development Ghana",
@@ -78,18 +84,51 @@ export const metadata: Metadata = {
 // Structured data for search engines. The phone number is deliberately left out.
 const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": `${SITE_URL}/#organization`,
-  name: "Biibisoft",
-  url: SITE_URL,
-  logo: `${SITE_URL}/brand/biibisoft-mark.svg`,
-  image: `${SITE_URL}/opengraph-image`,
-  description: DESCRIPTION,
-  email: EMAIL,
-  address: { "@type": "PostalAddress", addressLocality: "Accra", addressRegion: "Greater Accra", addressCountry: "GH" },
-  areaServed: "Worldwide",
-  knowsAbout: ["Web development", "Mobile app development", "Custom software", "Artificial intelligence"],
-  contactPoint: { "@type": "ContactPoint", contactType: "sales", email: EMAIL, availableLanguage: ["English"] },
+  "@graph": [
+    {
+      "@type": ["Organization", "ProfessionalService"],
+      "@id": `${SITE_URL}/#organization`,
+      name: "Biibisoft",
+      url: SITE_URL,
+      logo: `${SITE_URL}/brand/biibisoft-mark.svg`,
+      image: `${SITE_URL}/opengraph-image`,
+      description: DESCRIPTION,
+      email: EMAIL,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Accra",
+        addressRegion: "Greater Accra",
+        addressCountry: "GH",
+      },
+      areaServed: "Worldwide",
+      knowsAbout: [
+        "Software development",
+        "Website development",
+        "Web application development",
+        "Mobile app development",
+        "Custom software development",
+        "Artificial intelligence integration",
+        "Large language models",
+      ],
+      contactPoint: { "@type": "ContactPoint", contactType: "sales", email: EMAIL, availableLanguage: ["English"] },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Software development services",
+        itemListElement: SERVICES.map((s) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: s.name, url: `${SITE_URL}/services/${s.slug}` },
+        })),
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: "Biibisoft",
+      url: SITE_URL,
+      publisher: { "@id": `${SITE_URL}/#organization` },
+      inLanguage: "en",
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -103,10 +142,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c") }}
-        />
+        <JsonLd data={ORGANIZATION_JSON_LD} />
         <Header />
         <main className="grow flex flex-col w-full">
           {children}

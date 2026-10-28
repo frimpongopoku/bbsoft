@@ -9,7 +9,7 @@ import { EMAIL, mailtoLink } from "@/content/contact";
 import { WhatsAppLink } from "@/components/Phone";
 
 const NAV_LINKS = [
-  { name: "Services", href: "/#services" },
+  { name: "Services", href: "/services" },
   { name: "Team", href: "/#team" },
   { name: "Work", href: "/#work" },
   { name: "Lab", href: "/#lab" },

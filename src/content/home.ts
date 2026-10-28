@@ -16,30 +16,35 @@ export const STACK = [
 export const CRAFTS = [
   {
     name: "Websites",
+    slug: "web-development",
     desc: "Polished static or CMS-backed marketing sites that load fast and read beautifully.",
     tech: "Next.js · Tailwind · MDX",
     from: "From $1,200",
   },
   {
     name: "Web apps",
+    slug: "web-app-development",
     desc: "Interactive systems with complex roles, data and workflows.",
     tech: "Next.js · TypeScript · PostgreSQL",
     from: "From $1,500",
   },
   {
     name: "Mobile",
+    slug: "mobile-app-development",
     desc: "Native iOS and Android apps, shipped to the App Store and Google Play.",
     tech: "React Native · Expo · Firebase",
     from: "From $1,500",
   },
   {
     name: "Custom",
+    slug: "custom-software-development",
     desc: "Enterprise software and real-time dashboards built for scale.",
     tech: "Next.js · Go · Docker · AWS",
     from: "From $3,000",
   },
   {
     name: "AI systems",
+    slug: "ai-integration",
     desc: "Assistants, RAG pipelines and embeddings grounded in your own data.",
     tech: "LLMs · RAG · Embeddings",
     from: "Add-on",

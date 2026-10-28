@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { EMAIL, mailtoLink } from "@/content/contact";
 import { PhoneNumber, WhatsAppLink } from "@/components/Phone";
+import { SERVICES } from "@/content/services";
 
 const FOOTER_LINKS = [
-  { name: "Services", href: "/#services" },
+  { name: "Services", href: "/services" },
   { name: "Team", href: "/#team" },
   { name: "Work", href: "/#work" },
   { name: "Lab", href: "/#lab" },
@@ -18,6 +19,18 @@ export default function Footer() {
   return (
     <footer className="overflow-hidden bg-obsidian text-bone">
       <div className="mx-auto max-w-[1360px] px-5 pt-16 sm:px-8 lg:px-12">
+        <nav aria-label="Services" className="mb-12">
+          <h2 className="eyebrow text-[11px] text-ash">Services</h2>
+          <ul className="mt-4 grid gap-x-8 gap-y-3 text-[15px] sm:grid-cols-2 lg:grid-cols-3">
+            {SERVICES.map((s) => (
+              <li key={s.slug}>
+                <Link href={`/services/${s.slug}`} className="text-fog transition-colors hover:text-bone">
+                  {s.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
         <div className="flex flex-col gap-8 border-t border-bone/10 pt-8 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-2">
             <span className="text-[15px] text-ash">© {year} Biibisoft · Accra, Ghana</span>
