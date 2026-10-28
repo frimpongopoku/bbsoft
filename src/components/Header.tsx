@@ -10,6 +10,7 @@ import { WhatsAppLink } from "@/components/Phone";
 
 const NAV_LINKS = [
   { name: "Services", href: "/services" },
+  { name: "Finish line", href: "/#finish-line" },
   { name: "Team", href: "/#team" },
   { name: "Work", href: "/#work" },
   { name: "Lab", href: "/#lab" },
