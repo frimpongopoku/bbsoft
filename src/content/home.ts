@@ -105,8 +105,8 @@ export const LAB = [
   },
   {
     name: "Termite",
-    url: "https://termite-174fd.web.app/",
-    domain: "Termite for macOS",
+    url: "https://termite.site",
+    domain: "termite.site",
     category: "Developer tools",
     platform: "macOS",
     pitch: "A native Mac terminal where every tab is named, grouped and searchable.",
