@@ -159,3 +159,24 @@ export const AUDIENCES = [
 ] as const;
 
 export const ROUTE = ["Scope", "Shape", "Ship weekly", "Launch & grow"] as const;
+
+/** The finish-line offer — for people who started building (often with AI tools) and got stuck.
+ *  Prices come from src/lib/pricing.ts; this is only the copy. */
+export const FINISH_LINE = {
+  tools: ["Lovable", "Bolt", "v0", "Cursor", "Replit", "Claude Code"],
+  signs: [
+    "It works on your laptop, but not once it's online",
+    "Every fix the AI makes breaks something else",
+    "Login, payments or the database are only half wired",
+    "You're not sure it's safe to put real users on it",
+    "The App Store or Play Store keeps rejecting it",
+  ],
+  /** How a rescue is scoped so hidden gaps and new asks never turn into surprise bills. */
+  terms: [
+    { title: "A written 'done' list", body: "The fixed price covers exactly what's on it. Anything else is a change, priced before we start it." },
+    { title: "Buffer built in", body: "Every quote carries room for the small surprises, so you don't hear about them." },
+    { title: "Big finds, quoted first", body: "If we uncover something the check couldn't see, we stop, explain it and quote it. You decide." },
+    { title: "A code freeze", body: "No AI edits to the main code while we work, so your next prompt doesn't undo our fixes." },
+    { title: "Paid in milestones", body: "Half to start, half at launch. Larger jobs split 40/40/20." },
+  ],
+} as const;

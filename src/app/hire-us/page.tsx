@@ -7,6 +7,7 @@ import QuoteBuilder from "@/components/QuoteBuilder";
 import ContactChannels from "@/components/ContactChannels";
 import EnquiryForm from "@/components/EnquiryForm";
 import Audiences from "@/components/home/Audiences";
+import FinishLine from "@/components/home/FinishLine";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { CRAFTS } from "@/content/home";
 import { WhatsAppLink } from "@/components/Phone";
@@ -93,8 +94,10 @@ export default function HireUsPage() {
         <Audiences />
       </div>
 
+      <FinishLine />
+
       {/* ── Services ─────────────────────────────────────────────── */}
-      <section id="services" className="mx-auto w-full max-w-[1360px] px-5 pb-24 sm:px-8 md:pb-32 lg:px-12">
+      <section id="services" className="mx-auto w-full max-w-[1360px] px-5 py-24 sm:px-8 md:py-32 lg:px-12">
         <p className="eyebrow text-stone">( What we build )</p>
         <h2 className={`mt-5 ${heading}`}>
           Five crafts, <span className="accent-serif text-brass">one standard.</span>

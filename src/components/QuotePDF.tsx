@@ -595,6 +595,10 @@ const s = StyleSheet.create({
 export interface QuotePDFProps {
   projectType: string;
   projectTypeId: string;
+  /** Set when the client already started the project; null for a fresh build. */
+  startingPoint: string | null;
+  codeCheckUSD: number;
+  rescueFixed: string[];
   techStack: string;
   designTier: string;
   deliveryPace: string;
@@ -673,6 +677,9 @@ function RunningHeader({ refNumber }: { refNumber: string }) {
 export default function QuotePDF({
   projectType,
   projectTypeId,
+  startingPoint,
+  codeCheckUSD,
+  rescueFixed,
   techStack,
   designTier,
   deliveryPace,
@@ -816,6 +823,24 @@ export default function QuotePDF({
                 <Text style={s.tableLabel}>Project Type</Text>
                 <Text style={s.tableValue}>{projectType}</Text>
               </View>
+              {startingPoint && (
+                <>
+                  <View style={s.tableRow}>
+                    <Text style={s.tableLabel}>Starting Point</Text>
+                    <Text style={s.tableValue}>{startingPoint}</Text>
+                  </View>
+                  <View style={s.tableRow}>
+                    <Text style={s.tableLabel}>Code Check (credited)</Text>
+                    <Text style={s.tableValueAccent}>${codeCheckUSD}</Text>
+                  </View>
+                  {rescueFixed.map((label) => (
+                    <View key={label} style={s.tableRow}>
+                      <Text style={s.tableLabel}>Included</Text>
+                      <Text style={s.tableValue}>{label}</Text>
+                    </View>
+                  ))}
+                </>
+              )}
               <View style={s.tableRow}>
                 <Text style={s.tableLabel}>Design Tier</Text>
                 <Text style={s.tableValue}>{designTier}</Text>

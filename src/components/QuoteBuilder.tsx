@@ -1,9 +1,20 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { Check, Shield, Layers, Rocket, Landmark, ChevronRight, Download, Loader2, AlertCircle } from "lucide-react";
+import { Check, Shield, Layers, Rocket, Landmark, ChevronRight, Download, Loader2, AlertCircle, Sprout, Wrench, Sparkles } from "lucide-react";
 import MobileAppDeploymentInfo from "./MobileAppDeploymentInfo";
-import { PROJECT_TYPES, SPEEDS, applyPace, type ProjectType, type Speed } from "@/lib/pricing";
+import {
+  PROJECT_TYPES,
+  SPEEDS,
+  STARTING_POINTS,
+  REBUILD_THRESHOLD,
+  applyPace,
+  applyStartingPoint,
+  codeCheckFee,
+  type ProjectType,
+  type Speed,
+  type StartingPoint,
+} from "@/lib/pricing";
 
 // ─── Static data defined OUTSIDE the component so it is never re-created ────
 const FEATURES = [
@@ -22,6 +33,7 @@ const DESIGNS = [
 ] as const;
 
 const SPEED_ICONS = { normal: Layers, fast: Shield, rush: Rocket } as const;
+const START_ICONS = { fresh: Sprout, finish: Wrench, polish: Sparkles } as const;
 
 const USD_TO_GHS = 14.8;
 
@@ -60,6 +72,7 @@ function generateRef(): string {
 // ─── Main component ──────────────────────────────────────────────────────────
 export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
   const [selectedType,         setSelectedType]         = useState<ProjectType>(PROJECT_TYPES[1]);
+  const [startingPoint,        setStartingPoint]        = useState<StartingPoint>(STARTING_POINTS[0]);
   const [selectedFeatures,     setSelectedFeatures]     = useState<string[]>(["auth", "ai"]);
   const [selectedDesign,       setSelectedDesign]       = useState<Design>(DESIGNS[1]);
   const [selectedSpeed,        setSelectedSpeed]        = useState<Speed>(SPEEDS[0]);
@@ -72,7 +85,15 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
   const featureWeeks = FEATURES.filter(f => selectedFeatures.includes(f.id)).reduce((s, f) => s + f.weeks, 0);
   const rawCost      = selectedType.basePrice + featurePrice + selectedDesign.price;
   const rawWeeks     = selectedType.baseWeeks + featureWeeks + selectedDesign.weeks;
-  const { cost: totalCost, weeks: totalWeeks } = applyPace(rawCost, rawWeeks, selectedSpeed);
+  const isMobile     = selectedType.id === "mobileapp";
+  const hasAI        = selectedFeatures.includes("ai");
+  const rescue       = applyStartingPoint(rawCost, rawWeeks, startingPoint, { mobile: isMobile, ai: hasAI });
+  const { cost: totalCost, weeks: totalWeeks } = applyPace(rescue.cost, rescue.weeks, selectedSpeed);
+
+  // Rescues start with a paid code check (credited), and we flag when a rebuild would be the better deal
+  const isRescue       = startingPoint.id !== "fresh";
+  const codeCheck      = isRescue ? codeCheckFee(selectedType.id, hasAI) : 0;
+  const suggestRebuild = isRescue && totalCost >= applyPace(rawCost, rawWeeks, selectedSpeed).cost * REBUILD_THRESHOLD;
 
   // Add Biibisoft umbrella fee if applicable
   const deployFee    = (selectedType.id === "mobileapp" && mobileDeployOption === "biibisoft-umbrella") ? 50 : 0;
@@ -98,11 +119,14 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
     const mobileNote = selectedType.id === "mobileapp" && mobileDeployOption
       ? `\n- App Store Publishing: ${mobileDeployOption === "biibisoft-umbrella" ? "Biibisoft Umbrella ($50 + $10/extra app)" : "Own Brand (self-hosted accounts)"}`
       : "";
+    const startNote = isRescue
+      ? `\n- Starting point: ${startingPoint.name} (Grade ${startingPoint.grade})\n- Code check: $${codeCheck} (credited to the build)`
+      : "";
     onSelectEstimate(
-      `Project Estimate Request:\n- Type: ${selectedType.name}\n- Design: ${selectedDesign.name}\n- Delivery: ${selectedSpeed.name}\n- Chosen Features: ${featureNames || "None"}${mobileNote}\n- Budget: $${grandTotal.toLocaleString()} USD (~GH₵ ${(grandTotal * USD_TO_GHS).toLocaleString()})\n- Timeline: ${totalWeeks} weeks`
+      `Project Estimate Request:\n- Type: ${selectedType.name}${startNote}\n- Design: ${selectedDesign.name}\n- Delivery: ${selectedSpeed.name}\n- Chosen Features: ${featureNames || "None"}${mobileNote}\n- Budget: $${grandTotal.toLocaleString()} USD (~GH₵ ${(grandTotal * USD_TO_GHS).toLocaleString()})\n- Timeline: ${totalWeeks} weeks`
     );
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-  }, [selectedType, selectedDesign, selectedSpeed, selectedFeatures, grandTotal, totalWeeks, mobileDeployOption, onSelectEstimate]);
+  }, [selectedType, startingPoint, isRescue, codeCheck, selectedDesign, selectedSpeed, selectedFeatures, grandTotal, totalWeeks, mobileDeployOption, onSelectEstimate]);
 
   const handleDownloadPDF = useCallback(async () => {
     setIsDownloadingPDF(true);
@@ -133,6 +157,9 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
         React.createElement(QuotePDF, {
           projectType:        selectedType.name,
           projectTypeId:      selectedType.id,
+          startingPoint:      isRescue ? `${startingPoint.name} (Grade ${startingPoint.grade})` : null,
+          codeCheckUSD:       codeCheck,
+          rescueFixed:        rescue.fixed.map(f => f.label),
           techStack:          selectedType.tech,
           designTier:         selectedDesign.name,
           deliveryPace:       selectedSpeed.name,
@@ -164,9 +191,8 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
     } finally {
       setIsDownloadingPDF(false);
     }
-  }, [selectedType, selectedDesign, selectedSpeed, selectedFeatures, totalCost, totalWeeks, mobileDeployOption]);
+  }, [selectedType, startingPoint, isRescue, codeCheck, rescue.fixed, selectedDesign, selectedSpeed, selectedFeatures, totalCost, totalWeeks, mobileDeployOption]);
 
-  const isMobile = selectedType.id === "mobileapp";
   const card = "rounded-[24px] border border-obsidian/10 bg-white p-5 sm:p-8";
 
   return (
@@ -200,9 +226,50 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
             </div>
           </div>
 
-          {/* 2 — Features */}
+          {/* 2 — Starting point */}
           <div className={card}>
-            <StepHeader step={2} title="Modules" />
+            <StepHeader step={2} title="Starting point" />
+            <p className="-mt-2 mb-5 text-[14px] leading-relaxed text-stone">
+              Already started, maybe with Lovable, Bolt, Cursor or another AI tool? Tell us how far you got.
+            </p>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              {STARTING_POINTS.map(point => {
+                const Icon = START_ICONS[point.id];
+                const on   = startingPoint.id === point.id;
+                return (
+                  <button
+                    key={point.id}
+                    type="button"
+                    onClick={() => setStartingPoint(point)}
+                    className={`option-btn flex flex-col gap-2 p-4${on ? " selected" : ""}`}
+                    aria-pressed={on}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="flex items-center gap-2 text-[15px] font-medium">
+                        <Icon className="h-4 w-4 text-brass" />
+                        {point.name}
+                      </span>
+                      {on && <SelectedDot />}
+                    </div>
+                    <span className="font-mono text-xs text-brass">
+                      {point.grade ? `Grade ${point.grade} · ~${Math.round(point.costMultiplier * 100)}%` : "Full build"}
+                    </span>
+                    <p className="text-[13px] leading-relaxed text-stone">{point.description}</p>
+                  </button>
+                );
+              })}
+            </div>
+            {isRescue && (
+              <p className="mt-4 rounded-2xl bg-linen px-4 py-3 text-[13px] leading-relaxed text-taupe">
+                We start with a <strong className="font-medium text-obsidian">${codeCheck} code check</strong>: we run
+                your project, review the code and confirm the grade with a fixed quote. The fee is credited to the build.
+              </p>
+            )}
+          </div>
+
+          {/* 3 — Features */}
+          <div className={card}>
+            <StepHeader step={3} title="Modules" />
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {FEATURES.map(feature => {
                 const on = selectedFeatures.includes(feature.id);
@@ -236,7 +303,7 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
 
           {/* 3 — Design */}
           <div className={card}>
-            <StepHeader step={3} title="Design fidelity" />
+            <StepHeader step={4} title="Design fidelity" />
             <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
               {DESIGNS.map(design => {
                 const on = selectedDesign.id === design.id;
@@ -264,7 +331,7 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
 
           {/* 4 — Delivery Speed */}
           <div className={card}>
-            <StepHeader step={4} title="Delivery pace" />
+            <StepHeader step={5} title="Delivery pace" />
             <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
               {SPEEDS.map(speed => {
                 const Icon = SPEED_ICONS[speed.id];
@@ -296,7 +363,7 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
           {/* 5 — App store publishing (mobile only) */}
           {isMobile && (
             <MobileAppDeploymentInfo
-              step={5}
+              step={6}
               selectedDeployOption={mobileDeployOption}
               onDeployOptionChange={setMobileDeployOption}
             />
@@ -318,10 +385,22 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
             {deployFee > 0 && (
               <p className="mt-1.5 text-xs text-ash">Includes $50 Biibisoft publishing fee</p>
             )}
+            {isRescue && (
+              <p className="mt-1.5 text-xs leading-relaxed text-ash">
+                Confirmed by a ${codeCheck} code check, credited to this price.
+              </p>
+            )}
+            {suggestRebuild && (
+              <p className="mt-3 rounded-xl border border-champagne/30 px-3 py-2 text-xs leading-relaxed text-champagne">
+                This is close to a fresh build. The code check will tell us honestly which is the better deal.
+              </p>
+            )}
 
             <dl className="mt-7 text-sm">
               {[
                 ["Project", selectedType.name],
+                ["Starting point", isRescue ? `Grade ${startingPoint.grade}` : "Fresh build"],
+                ...(isRescue ? [["Code check", `$${codeCheck} · credited`]] : []),
                 ["Timeline", `${totalWeeks} weeks`],
                 ["Modules", String(selectedFeatures.length)],
                 ["Pace", `${selectedSpeed.costMultiplier}×`],

@@ -238,6 +238,58 @@ export const SERVICES: readonly Service[] = [
     ],
   },
   {
+    slug: "vibe-code-rescue",
+    name: "Finish your vibe-coded app",
+    metaTitle: "Finish your AI-built app: vibe coding rescue",
+    metaDescription:
+      "Started your app with Lovable, Bolt, v0, Cursor or Replit and got stuck? Biibisoft fixes, secures and launches AI-built web apps, mobile apps and AI agents. Code checks from $100.",
+    eyebrow: "Vibe code rescue",
+    heading: ["You built most of it.", "We'll finish it."],
+    lede: "AI tools get you a long way fast, then stall on the hard parts: real sign-in, payments, security, deployment and the bugs that multiply with every prompt. We take your project as it is, fix what's broken and get it live, without starting over.",
+    from: "$100 code check",
+    timeline: "2–4 weeks to launch",
+    stack: "Whatever you built it in",
+    forCompanies:
+      "An internal tool or prototype someone vibe-coded that's now business-critical, made reliable, secure and maintainable.",
+    forFounders:
+      "Your AI-built MVP taken from 'works on my laptop' to live, with real users, payments and a codebase you can keep building on.",
+    includes: [
+      { title: "Code check first", body: "From $100 for a website to $300 for an AI agent. We run your project, review the code and send a written report, a grade and a fixed quote. Credited if you continue." },
+      { title: "Bugs fixed properly", body: "We find the root cause instead of patching symptoms, so fixes stop breaking other things." },
+      { title: "Real backend", body: "Sign-in, database, file storage and payments wired up properly, not mocked." },
+      { title: "Security pass", body: "API keys out of the code, data access locked down and common AI-generated holes closed." },
+      { title: "Deployed & live", body: "Your domain, hosting and SSL, or App Store and Play Store submission, handled." },
+      { title: "Priced by grade", body: "Nearly done (A) costs about 35% of a fresh build, partly built (B) about 65%. Mostly unusable (C) is quoted as a rebuild, and we'll tell you if that's the better deal." },
+    ],
+    proof: [],
+    faqs: [
+      {
+        q: "Can you finish an app I started with Lovable, Bolt, v0, Cursor or Replit?",
+        a: "Yes. We work with projects built in any AI coding tool. As long as we can access the code, we can pick it up, fix what's broken and take it to launch.",
+      },
+      {
+        q: "Will you make me start from scratch?",
+        a: "Almost never. Most AI-built projects have a usable foundation. We keep what works and rebuild only the parts that are unsafe or holding you back, and the code check tells you which is which before you spend more.",
+      },
+      {
+        q: "How much does it cost to finish a vibe-coded app?",
+        a: "It depends on how far along it is and what it is. A code check ($100 for a website, $150 for a web app, $250 for a mobile app, $300 for an AI agent) grades the project. A nearly-done project costs about 35% of a fresh build and a partly-built one about 65%, with fixed extras for app store submission and AI guardrails. The check fee is credited if you go ahead.",
+      },
+      {
+        q: "Is my AI-generated code safe to launch?",
+        a: "Often not yet. Common issues include API keys exposed in the browser, databases anyone can read and missing permission checks. Our security pass finds and fixes these before real users arrive.",
+      },
+      {
+        q: "What if you find more problems, or I think of new features, midway?",
+        a: "Every quote has a written list of what 'done' means and a buffer for small surprises. If we uncover something bigger, we stop, explain it and quote it before doing it. New features are priced from our standard module list, so nothing lands on your bill unannounced.",
+      },
+      {
+        q: "Can I keep using AI tools after you've finished?",
+        a: "Yes. We hand back clean, documented code so you and your AI tools can keep building on it, and we're on hand if you get stuck again.",
+      },
+    ],
+  },
+  {
     slug: "hire-developers",
     name: "Hire software developers",
     metaTitle: "Hire software developers & engineering teams",
@@ -296,6 +348,10 @@ export const GENERAL_FAQS = [
   {
     q: "How much does it cost to build software with Biibisoft?",
     a: "Websites start from $1,200, web and mobile apps from $1,500, and custom software from $3,000. Our online estimator gives you an itemised quote and a downloadable PDF in a couple of minutes.",
+  },
+  {
+    q: "Can you finish an app I started building with AI tools?",
+    a: "Yes. If you vibe-coded a project with Lovable, Bolt, v0, Cursor or Replit and got stuck, a code check from $100 grades it, and finishing costs a share of a fresh build depending on how far along it is. We fix, secure and launch it without starting over.",
   },
   {
     q: "Can Biibisoft help our organisation adopt AI?",

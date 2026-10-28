@@ -3,15 +3,18 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { PROJECT_TYPES, SPEEDS, applyPace } from "@/lib/pricing";
+import { PROJECT_TYPES, SPEEDS, STARTING_POINTS, applyPace, applyStartingPoint, codeCheckFee } from "@/lib/pricing";
 
 export default function EstimatorTile() {
   const [typeId, setTypeId] = useState<string>("webapp");
   const [speedId, setSpeedId] = useState<string>("normal");
+  const [startId, setStartId] = useState<string>("fresh");
 
   const type = PROJECT_TYPES.find((t) => t.id === typeId) ?? PROJECT_TYPES[0];
   const speed = SPEEDS.find((s) => s.id === speedId) ?? SPEEDS[0];
-  const { cost, weeks } = applyPace(type.basePrice, type.baseWeeks, speed);
+  const start = STARTING_POINTS.find((p) => p.id === startId) ?? STARTING_POINTS[0];
+  const rescue = applyStartingPoint(type.basePrice, type.baseWeeks, start, { mobile: type.id === "mobileapp" });
+  const { cost, weeks } = applyPace(rescue.cost, rescue.weeks, speed);
 
   return (
     <div className="min-w-0 flex-[2_1_560px] rounded-[26px] bg-obsidian p-6 text-bone sm:p-10">
@@ -60,6 +63,25 @@ export default function EstimatorTile() {
         </div>
       </fieldset>
 
+      <fieldset className="mt-3">
+        <legend className="sr-only">Starting point</legend>
+        <div className="flex gap-1 rounded-full border border-bone/15 p-1">
+          {STARTING_POINTS.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              aria-pressed={p.id === start.id}
+              onClick={() => setStartId(p.id)}
+              className={`h-11 flex-1 rounded-full px-3 text-sm transition-colors ${
+                p.id === start.id ? "bg-bone text-obsidian" : "text-fog hover:text-bone"
+              }`}
+            >
+              {p.shortName}
+            </button>
+          ))}
+        </div>
+      </fieldset>
+
       <div className="mt-8 flex flex-wrap items-end justify-between gap-5" aria-live="polite">
         <div>
           <div className="eyebrow text-[11px] text-ash">From</div>
@@ -69,7 +91,11 @@ export default function EstimatorTile() {
         </div>
         <div className="sm:text-right">
           <div className="font-serif text-[44px] leading-none">{weeks} weeks</div>
-          <div className="mt-2 font-mono text-xs text-fog">{type.tech.replaceAll(" / ", " · ")}</div>
+          <div className="mt-2 font-mono text-xs text-fog">
+            {start.grade
+              ? `Grade ${start.grade} · after a $${codeCheckFee(type.id)} code check`
+              : type.tech.replaceAll(" / ", " · ")}
+          </div>
         </div>
       </div>
 
