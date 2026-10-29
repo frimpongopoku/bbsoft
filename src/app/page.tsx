@@ -1,5 +1,5 @@
 import Hero from "@/components/home/Hero";
-import Metrics from "@/components/home/Metrics";
+import Promises from "@/components/home/Promises";
 import Crafts from "@/components/home/Crafts";
 import Audiences from "@/components/home/Audiences";
 import FinishLine from "@/components/home/FinishLine";
@@ -43,7 +43,7 @@ export default function Home() {
     <>
       <JsonLd data={structuredData} />
       <Hero />
-      <Metrics />
+      <Promises />
       <Crafts />
       <Audiences />
       <div className="pb-24 md:pb-36">

@@ -614,11 +614,11 @@ export interface QuotePDFProps {
 const USD_TO_GHS = 14.8;
 
 const FEATURE_LABELS: Record<string, string> = {
-  auth:     "User Authentication",
-  payments: "Payment Gateway",
+  auth:     "User Accounts",
+  payments: "Payments",
   admin:    "Admin Dashboard",
-  ai:       "AI & LLM Integration",
-  realtime: "Real-time WebSockets",
+  ai:       "AI Features",
+  realtime: "Real-time Updates",
   push:     "Push Notifications",
 };
 

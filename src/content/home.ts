@@ -1,5 +1,13 @@
 // Homepage copy and lists. Edit here — the section components only render it.
 
+/** The strip under the hero: what every client can count on, whatever the size of the job. */
+export const PROMISES = [
+  { word: "Upfront.", line: "See the price before you commit. Our estimator shows its working." },
+  { word: "Weekly.", line: "A working link every week. Progress you can click, not just hear about." },
+  { word: "Plain.", line: "Updates in plain English. Jargon available on request." },
+  { word: "Yours.", line: "Your code, your app, your call. We just build it really well." },
+] as const;
+
 export const STACK = [
   "Next.js",
   "TypeScript",
@@ -17,35 +25,35 @@ export const CRAFTS = [
   {
     name: "Websites",
     slug: "web-development",
-    desc: "Polished static or CMS-backed marketing sites that load fast and read beautifully.",
+    desc: "Sites that load fast, read beautifully and get found on Google.",
     tech: "Next.js · Tailwind · MDX",
     from: "From $1,200",
   },
   {
     name: "Web apps",
     slug: "web-app-development",
-    desc: "Interactive systems with complex roles, data and workflows.",
+    desc: "For when the spreadsheet (or the WhatsApp group) has finally had enough.",
     tech: "Next.js · TypeScript · PostgreSQL",
     from: "From $1,500",
   },
   {
     name: "Mobile",
     slug: "mobile-app-development",
-    desc: "Native iOS and Android apps, shipped to the App Store and Google Play.",
+    desc: "iPhone and Android apps, from first sketch to the App Store and Google Play.",
     tech: "React Native · Expo · Firebase",
     from: "From $1,500",
   },
   {
     name: "Custom",
     slug: "custom-software-development",
-    desc: "Enterprise software and real-time dashboards built for scale.",
+    desc: "Platforms, integrations and live dashboards for problems no off-the-shelf tool fits.",
     tech: "Next.js · Go · Docker · AWS",
     from: "From $3,000",
   },
   {
     name: "AI systems",
     slug: "ai-integration",
-    desc: "Assistants, RAG pipelines and embeddings grounded in your own data.",
+    desc: "Assistants and automations that answer from your own data, not from wild guesses.",
     tech: "LLMs · RAG · Embeddings",
     from: "Add-on",
   },
@@ -134,7 +142,7 @@ export const AUDIENCES = [
     id: "companies",
     eyebrow: "For companies & teams",
     title: "Extra senior hands, without the hiring cycle.",
-    body: "Engineers who have shipped inside Slack, Google and Andela, plugged into your roadmap. Bring us a new product, a platform overhaul, or the backlog your team can't get to.",
+    body: "Engineers who have shipped inside Slack, Google and Andela, plugged into your roadmap. Bring us a new product, a platform overhaul, or the backlog that's been 'next sprint' since last year.",
     points: [
       "Itemised estimates you can take to procurement",
       "Weekly releases on a staging link you can review",
@@ -147,11 +155,11 @@ export const AUDIENCES = [
     id: "founders",
     eyebrow: "For founders & individuals",
     title: "An idea, no team yet? Start here.",
-    body: "Whether it's a side project, a first startup or a small business going online, we help you shape the idea, scope it to your budget, and launch, explaining every decision in plain language.",
+    body: "A side project, a first startup or a small business going online: we help you shape the idea, fit it to your budget and launch it, explaining every decision in plain language. No question is too basic.",
     points: [
       "Start from an idea, a sketch or a voice note",
       "A first version scoped to fit your budget",
-      "Plain-language updates, no jargon",
+      "Updates you can read without a dictionary",
       "We can publish your app under Biibisoft until you're ready",
     ],
     cta: "Chat with us on WhatsApp",

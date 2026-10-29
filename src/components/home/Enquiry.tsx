@@ -13,7 +13,7 @@ export default function Enquiry() {
             you&apos;re <span className="accent-serif text-champagne">building.</span>
           </h2>
           <p className="mt-7 max-w-[420px] text-lg font-light leading-relaxed text-mist">
-            A full build, an upgrade, or an AI-first system. We reply within 24 hours.
+            A brand-new build, a half-finished app, or an AI idea you can&apos;t stop thinking about. We reply within 24 hours, usually much sooner.
           </p>
           <div className="mt-10 max-w-[460px]">
             <ContactChannels />

@@ -38,11 +38,11 @@ export default function Hero() {
         </p>
         <h1 className="mt-7 text-[clamp(64px,13vw,210px)] font-normal leading-[0.86] tracking-[-0.06em]">
           <span className="focus-in" style={{ animationDelay: "0.2s" }}>
-            Software,
+            Ideas,
           </span>
           <br />
           <span className="focus-in accent-serif text-champagne" style={{ animationDelay: "0.6s" }}>
-            considered.
+            shipped.
           </span>
           <span className="sr-only"> Biibisoft, a software development company in Accra, Ghana</span>
         </h1>
@@ -50,8 +50,8 @@ export default function Hero() {
           className="focus-in mt-9 max-w-[600px] text-[clamp(17px,1.4vw,20px)] font-light leading-relaxed text-mist"
           style={{ animationDelay: "0.8s" }}
         >
-          From first-time founders to established companies, we design, build and launch web,
-          mobile and AI products, with the same care we give the products we run ourselves.
+          Websites, apps and AI for companies with a roadmap and founders with a napkin sketch. We
+          build them with the same care we give the products we run ourselves.
         </p>
         {/* .focus-in forces inline-block, so the flex row lives on an inner wrapper */}
         <div className="focus-in mt-9 w-full sm:w-auto" style={{ animationDelay: "0.8s" }}>

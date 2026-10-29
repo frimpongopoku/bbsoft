@@ -5,7 +5,7 @@ import { Mail } from "lucide-react";
 import { mailtoLink, whatsappLink } from "@/content/contact";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 
-const NEEDS = ["Website", "Web app", "Mobile app", "AI system", "Custom software"] as const;
+const NEEDS = ["Website", "Web app", "Mobile app", "AI system", "Custom software", "Finish my app"] as const;
 const BUDGETS = ["Under $2k", "$2k – $5k", "$5k – $15k", "$15k +"] as const;
 
 function Chip({
@@ -121,7 +121,7 @@ export default function EnquiryForm({ prefill = "" }: { prefill?: string }) {
           required
           value={idea}
           onChange={(e) => setIdea(e.target.value)}
-          placeholder="A few lines on what you want to build"
+          placeholder="A few lines is plenty. We'll ask the right questions."
         />
       </label>
 

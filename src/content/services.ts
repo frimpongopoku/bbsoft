@@ -359,6 +359,6 @@ export const GENERAL_FAQS = [
   },
   {
     q: "How do I start a project?",
-    a: "Message us on WhatsApp or email with a short description of what you need, or use the estimator on our Hire us page. We reply within 24 hours.",
+    a: "Message us on WhatsApp or email with a few lines about what you need (a voice note works too), or use the estimator on our Hire us page. We reply within 24 hours, usually much sooner.",
   },
 ] as const;

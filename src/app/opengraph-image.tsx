@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Biibisoft — Software, considered. Web, mobile & AI product studio in Accra, Ghana.";
+export const alt = "Biibisoft — Ideas, shipped. Web, mobile & AI product studio in Accra, Ghana.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -29,9 +29,9 @@ export default function OpengraphImage() {
           <span style={{ fontSize: 40, letterSpacing: -1 }}>Biibisoft</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <span style={{ fontSize: 120, lineHeight: 0.95, letterSpacing: -6 }}>Software,</span>
+          <span style={{ fontSize: 120, lineHeight: 0.95, letterSpacing: -6 }}>Ideas,</span>
           <span style={{ fontSize: 120, lineHeight: 0.95, letterSpacing: -4, color: "#C9A96E", fontStyle: "italic" }}>
-            considered.
+            shipped.
           </span>
         </div>
         <span style={{ fontSize: 26, color: "#A9A49B", letterSpacing: 2, textTransform: "uppercase" }}>

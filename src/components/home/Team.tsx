@@ -13,8 +13,8 @@ export default function Team() {
           </h2>
         </div>
         <p className="flex-[1_1_380px] text-lg leading-relaxed text-taupe">
-          Our team has built and shipped at companies like Slack, Google, Andela and Massenergize. We
-          know how products at scale are run, and we bring that discipline to every build.
+          Our team has built and shipped at Slack, Google, Andela and Massenergize. We kept the good
+          habits: code review, proper testing, and releases nobody is scared of. Every build gets them.
         </p>
       </div>
 

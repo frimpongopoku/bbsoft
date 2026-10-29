@@ -2,10 +2,10 @@
 // estimator and the full QuoteBuilder on /hire-us.
 
 export const PROJECT_TYPES = [
-  { id: "website",   name: "Corporate Website", shortName: "Website",    basePrice: 1200, baseWeeks: 3,  description: "Polished static or CMS-backed marketing site.", tech: "Next.js / Tailwind CSS / MDX" },
-  { id: "webapp",    name: "Web Application",   shortName: "Web app",    basePrice: 1500, baseWeeks: 6,  description: "Interactive systems with complex roles & data.",  tech: "Next.js / TypeScript / PostgreSQL" },
-  { id: "mobileapp", name: "Mobile App",        shortName: "Mobile app", basePrice: 1500, baseWeeks: 8,  description: "Native iOS & Android apps on the App Stores.",   tech: "React Native / Expo / Firebase" },
-  { id: "custom",    name: "Custom Software",   shortName: "Custom",     basePrice: 3000, baseWeeks: 10, description: "Enterprise solutions & WebSockets dashboards.",   tech: "Next.js / Go / Docker / AWS" },
+  { id: "website",   name: "Website",           shortName: "Website",    basePrice: 1200, baseWeeks: 3,  description: "A fast, polished site you can update yourself.", tech: "Next.js / Tailwind CSS / MDX" },
+  { id: "webapp",    name: "Web Application",   shortName: "Web app",    basePrice: 1500, baseWeeks: 6,  description: "Accounts, data and workflows people log in to.",  tech: "Next.js / TypeScript / PostgreSQL" },
+  { id: "mobileapp", name: "Mobile App",        shortName: "Mobile app", basePrice: 1500, baseWeeks: 8,  description: "iPhone and Android, published to both stores.",   tech: "React Native / Expo / Firebase" },
+  { id: "custom",    name: "Custom Software",   shortName: "Custom",     basePrice: 3000, baseWeeks: 10, description: "Platforms, integrations and live dashboards.",   tech: "Next.js / Go / Docker / AWS" },
 ] as const;
 
 export const SPEEDS = [

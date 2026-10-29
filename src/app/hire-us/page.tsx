@@ -22,8 +22,8 @@ const JUMP_LINKS = [
 const PROCESS = [
   { title: "Scope", body: "An itemised estimate and a clear plan before any code is written." },
   { title: "Shape", body: "Flows and interfaces you can click through, not just look at." },
-  { title: "Ship weekly", body: "Working software in your hands every week, on a staging link." },
-  { title: "Launch & grow", body: "Store submissions, monitoring and iteration after go-live." },
+  { title: "Ship weekly", body: "Working software on a staging link every week. No dramatic big reveal." },
+  { title: "Launch & grow", body: "Store submissions, monitoring and improvements after go-live. We don't vanish." },
 ] as const;
 
 const heading = "text-[clamp(48px,6.4vw,96px)] font-normal leading-[0.92] tracking-[-0.05em]";
@@ -47,9 +47,9 @@ export default function HireUsPage() {
             <span className="accent-serif text-champagne">your</span> product.
           </h1>
           <p className="mt-8 max-w-[600px] text-[clamp(17px,1.4vw,20px)] font-light leading-relaxed text-mist">
-            Whether you&apos;re a company with a roadmap or a founder with a first idea: a team that has
-            shipped at Slack, Google and Andela, a studio that runs its own products, and pricing you can
-            see before you commit.
+            Got a roadmap, a first idea, or an app the AI couldn&apos;t quite finish? You get a team that
+            has shipped at Slack, Google and Andela, a studio that runs its own products, and a price you
+            can see before you commit.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -160,8 +160,8 @@ export default function HireUsPage() {
             </h2>
           </div>
           <p className="flex-[1_1_360px] text-lg leading-relaxed text-taupe">
-            Pick a platform, add modules, choose a design level and pace. Download a PDF quote, or send it
-            straight to us and we&apos;ll take it from there.
+            Pick a platform, tell us how far along you are, add modules, then choose a look and a pace.
+            Download a PDF quote or send it straight to us. No sales call required.
           </p>
         </div>
         <QuoteBuilder onSelectEstimate={setEstimate} />

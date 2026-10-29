@@ -18,18 +18,18 @@ import {
 
 // ─── Static data defined OUTSIDE the component so it is never re-created ────
 const FEATURES = [
-  { id: "auth",     name: "User Authentication",   price: 300,  weeks: 1,   desc: "Sign-up, social login, roles & permissions" },
-  { id: "payments", name: "Payment Gateway",        price: 600,  weeks: 1.5, desc: "Paystack / Stripe / Flutterwave integrations" },
-  { id: "admin",    name: "Admin Dashboard",        price: 500, weeks: 2,   desc: "CMS & full content management system" },
-  { id: "ai",       name: "AI & LLM Integration",  price: 500, weeks: 3,   desc: "Custom chatbot, RAG pipelines, embeddings" },
-  { id: "realtime", name: "Real-time WebSockets",  price: 600,  weeks: 2,   desc: "Live chat, notifications, collaborative sync" },
-  { id: "push",     name: "Push Notifications",    price: 250,  weeks: 0.5, desc: "Browser & mobile direct alerts" },
+  { id: "auth",     name: "User accounts",         price: 300,  weeks: 1,   desc: "Sign-up, Google sign-in, roles & permissions" },
+  { id: "payments", name: "Payments",               price: 600,  weeks: 1.5, desc: "Paystack, Stripe, Flutterwave & Mobile Money" },
+  { id: "admin",    name: "Admin dashboard",        price: 500, weeks: 2,   desc: "Manage users, orders and content in one place" },
+  { id: "ai",       name: "AI features",           price: 500, weeks: 3,   desc: "Assistants and chat that answer from your data" },
+  { id: "realtime", name: "Real-time updates",     price: 600,  weeks: 2,   desc: "Live chat, activity feeds, working together" },
+  { id: "push",     name: "Push notifications",    price: 250,  weeks: 0.5, desc: "Friendly nudges on phones and browsers" },
 ] as const;
 
 const DESIGNS = [
-  { id: "standard",  name: "Standard Premium",      price: 0,    weeks: 0,   desc: "Clean, responsive corporate layouts." },
-  { id: "custom",    name: "Tailored Custom",        price: 400, weeks: 1.5, desc: "Unique compositions with high visual polish." },
-  { id: "immersive", name: "Immersive / Futuristic", price: 800, weeks: 3,   desc: "Animated material gradients, premium scroll effects." },
+  { id: "standard",  name: "Clean & classic",       price: 0,    weeks: 0,   desc: "Clean, responsive layouts that just work." },
+  { id: "custom",    name: "Tailored",               price: 400, weeks: 1.5, desc: "Designed around your brand, with extra polish." },
+  { id: "immersive", name: "Show-stopper",           price: 800, weeks: 3,   desc: "Motion and scroll effects that make people say \"ooh\"." },
 ] as const;
 
 const SPEED_ICONS = { normal: Layers, fast: Shield, rush: Rocket } as const;
@@ -303,7 +303,7 @@ export default function QuoteBuilder({ onSelectEstimate }: QuoteBuilderProps) {
 
           {/* 3 — Design */}
           <div className={card}>
-            <StepHeader step={4} title="Design fidelity" />
+            <StepHeader step={4} title="The look" />
             <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
               {DESIGNS.map(design => {
                 const on = selectedDesign.id === design.id;

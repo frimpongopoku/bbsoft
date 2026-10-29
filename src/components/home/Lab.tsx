@@ -33,7 +33,7 @@ export default function Lab() {
             </h2>
             <p className="mt-7 max-w-[460px] text-lg font-light leading-relaxed text-mist">
               {LAB.length} products we design, ship and run ourselves, used by real businesses, learners and
-              developers every day. Every lesson from running them goes straight into the work we do for you.
+              developers every day. We&apos;re our own toughest client, and every lesson ends up in your build.
             </p>
           </div>
 
