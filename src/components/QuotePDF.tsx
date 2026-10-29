@@ -5,7 +5,8 @@
  * Design principles:
  *  - Obsidian (#0B0B0C) is the primary brand expression, on a bone/white page
  *  - Champagne (#C9A96E) is the accent on dark surfaces; brass (#7A5C26) on light ones
- *  - Playfair Display for display text, Inter for everything else
+ *  - Instrument Serif (the website's display face) for display text, Inter for everything else.
+ *    Its lining figures keep prices even; Playfair's old-style figures bounced.
  *  - GHS used instead of ₵ (Helvetica subset cannot render it)
  *  - No emoji / Unicode glyph icons for app stores
  *  - No accent backgrounds, no pill badges on tech stack, no empty states
@@ -29,13 +30,15 @@ Font.register({
 });
 
 Font.register({
-  family: "Playfair",
+  family: "Serif",
   fonts: [
-    { src: "/fonts/playfair-display-latin-400-normal.woff", fontWeight: 400 },
-    { src: "/fonts/playfair-display-latin-600-normal.woff", fontWeight: 600 },
-    { src: "/fonts/playfair-display-latin-700-normal.woff", fontWeight: 700 },
+    { src: "/fonts/instrument-serif-latin-400-normal.woff", fontWeight: 400 },
+    { src: "/fonts/instrument-serif-latin-400-italic.woff", fontWeight: 400, fontStyle: "italic" },
   ],
 });
+
+// Never break words with hyphens ("Web Applica-tion"); wrap whole words instead.
+Font.registerHyphenationCallback((word) => [word]);
 
 // ─── Palette ──────────────────────────────────────────────────────────────────
 const C = {
@@ -74,8 +77,8 @@ const s = StyleSheet.create({
   header: {
     backgroundColor: C.obsidian,
     paddingHorizontal: 36,
-    paddingTop: 30,
-    paddingBottom: 26,
+    paddingTop: 26,
+    paddingBottom: 22,
     flexDirection: "row",
     alignItems: "flex-start",
     gap: 20,
@@ -90,27 +93,26 @@ const s = StyleSheet.create({
     marginBottom: 14,
   },
   brandName: {
-    fontFamily: "Playfair",
+    fontFamily: "Serif",
     fontWeight: 400,
-    fontSize: 16,
+    fontSize: 20,
     color: C.white,
-},
+  },
   brandTagline: {
     fontFamily: "Inter",
     fontWeight: 400,
     fontSize: 8,
     color: C.ash,
     letterSpacing: 0.8,
-    marginLeft: 14,
-    marginTop: 1,
+    marginTop: 2,
   },
   quoteTitle: {
-    fontFamily: "Playfair",
-    fontWeight: 600,
-    fontSize: 22,
+    fontFamily: "Serif",
+    fontWeight: 400,
+    fontSize: 30,
     color: C.white,
-    marginBottom: 3,
-    lineHeight: 1.2,
+    marginBottom: 8,
+    lineHeight: 1,
   },
   quoteSubtitle: {
     fontFamily: "Inter",
@@ -124,12 +126,12 @@ const s = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     gap: 8,
-    marginTop: 18,
+    marginTop: 14,
   },
   priceAmount: {
-    fontFamily: "Playfair",
-    fontWeight: 700,
-    fontSize: 38,
+    fontFamily: "Serif",
+    fontWeight: 400,
+    fontSize: 52,
     color: C.champagne,
     lineHeight: 1,
   },
@@ -138,13 +140,13 @@ const s = StyleSheet.create({
     fontWeight: 600,
     fontSize: 12,
     color: C.ash,
-    marginBottom: 4,
+    marginBottom: 0,
   },
   priceDivider: {
     width: 1,
     height: 24,
     backgroundColor: C.umber,
-    marginBottom: 4,
+    marginBottom: 2,
     marginHorizontal: 2,
   },
   priceGHS: {
@@ -152,12 +154,12 @@ const s = StyleSheet.create({
     fontWeight: 400,
     fontSize: 11,
     color: C.ash,
-    marginBottom: 4,
+    marginBottom: 0,
   },
 
   // ── Summary card (right column of header) ─────────────────────────────────
   summaryCard: {
-    width: 168,
+    width: 210,
     backgroundColor: C.graphite,
     borderRadius: 6,
     borderWidth: 1,
@@ -169,7 +171,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 5,
+    paddingVertical: 4,
   },
   summaryRowDivider: {
     height: 0.5,
@@ -182,7 +184,7 @@ const s = StyleSheet.create({
     color: C.ash,
     letterSpacing: 0.6,
     textTransform: "uppercase",
-    flex: 1,
+    flex: 0.7,
   },
   summaryValue: {
     fontFamily: "Inter",
@@ -190,7 +192,7 @@ const s = StyleSheet.create({
     fontSize: 11,
     color: C.white,
     textAlign: "right",
-    flex: 1.2,
+    flex: 1.5,
   },
   summaryValueAccent: {
     fontFamily: "Inter",
@@ -198,7 +200,7 @@ const s = StyleSheet.create({
     fontSize: 11,
     color: C.champagne,
     textAlign: "right",
-    flex: 1.2,
+    flex: 1.5,
   },
 
   // ── Meta bar ──────────────────────────────────────────────────────────────
@@ -238,7 +240,7 @@ const s = StyleSheet.create({
     backgroundColor: C.white,
   },
   runningHeaderBrand: {
-    fontFamily: "Playfair",
+    fontFamily: "Serif",
     fontWeight: 400,
     fontSize: 12,
     color: C.obsidian,
@@ -253,7 +255,7 @@ const s = StyleSheet.create({
   // ── Body ──────────────────────────────────────────────────────────────────
   body: {
     paddingHorizontal: 36,
-    paddingTop: 24,
+    paddingTop: 16,
   },
 
   eyebrow: {
@@ -298,7 +300,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 7,
+    paddingVertical: 5,
     borderBottomWidth: 0.5,
     borderBottomColor: C.borderLight,
   },
@@ -306,7 +308,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 7,
+    paddingVertical: 5,
   },
   tableLabel: {
     fontFamily: "Inter",
@@ -354,6 +356,16 @@ const s = StyleSheet.create({
     fontWeight: 500,
     fontSize: 9,
     color: C.textSecond,
+  },
+
+  pairRow: {
+    flexDirection: "row",
+    gap: 10,
+    marginBottom: 12,
+  },
+  pairCell: {
+    flex: 1,
+    marginBottom: 0,
   },
 
   // ── Tech Stack block — clean label + value, no pill ───────────────────────
@@ -404,11 +416,18 @@ const s = StyleSheet.create({
     textTransform: "uppercase",
   },
   totalAmount: {
-    fontFamily: "Playfair",
-    fontWeight: 700,
-    fontSize: 22,
+    fontFamily: "Serif",
+    fontWeight: 400,
+    fontSize: 30,
     color: C.textPrimary,
     textAlign: "right",
+    lineHeight: 1,
+  },
+  totalCurrency: {
+    fontFamily: "Inter",
+    fontWeight: 600,
+    fontSize: 11,
+    color: C.textLabel,
   },
   totalGHS: {
     fontFamily: "Inter",
@@ -416,26 +435,7 @@ const s = StyleSheet.create({
     fontSize: 9,
     color: C.textLabel,
     textAlign: "right",
-    marginTop: 1,
-  },
-
-  // ── Deployment note (page 1 bottom, points to page 2) ────────────────────
-  deployNote: {
-    borderTopWidth: 0.5,
-    borderTopColor: C.border,
-    paddingTop: 10,
-    marginBottom: 4,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  deployNoteText: {
-    fontFamily: "Inter",
-    fontWeight: 400,
-    fontSize: 9,
-    color: C.textLabel,
-    letterSpacing: 1.2,
-    textTransform: "uppercase",
+    marginTop: 5,
   },
 
   // ── Footer ────────────────────────────────────────────────────────────────
@@ -454,7 +454,7 @@ const s = StyleSheet.create({
     backgroundColor: C.white,
   },
   footerBrand: {
-    fontFamily: "Playfair",
+    fontFamily: "Serif",
     fontWeight: 400,
     fontSize: 11,
     color: C.obsidian,
@@ -721,14 +721,6 @@ export default function QuotePDF({
     >
       {/* ═════════════════════════════ PAGE 1 ═════════════════════════════ */}
       <Page size="A4" style={s.page}>
-        {/* Running header: invisible on page 1, visible from page 2 onward */}
-        <View
-          fixed
-          render={({ pageNumber }) =>
-            pageNumber > 1 ? <RunningHeader refNumber={refNumber} /> : null
-          }
-        />
-
         {/* ── Obsidian header ───────────────────────────────────────────────── */}
         <View style={s.header}>
           {/* Left: branding + title + price */}
@@ -875,47 +867,43 @@ export default function QuotePDF({
             </View>
           </View>
 
-          {/* Functional modules — hidden when zero selected */}
-          {hasFeatures && (
-            <View style={s.card} wrap={false}>
-              <View style={s.cardHeader}>
-                <Text style={s.cardHeaderText}>
-                  Functional Modules  ({selectedFeatures.length})
-                </Text>
+          {/* Modules and tech stack side by side, so the total always fits on page 1 */}
+          <View style={s.pairRow} wrap={false}>
+            {hasFeatures && (
+              <View style={[s.card, s.pairCell]}>
+                <View style={s.cardHeader}>
+                  <Text style={s.cardHeaderText}>
+                    Functional Modules  ({selectedFeatures.length})
+                  </Text>
+                </View>
+                <View style={s.chipGrid}>
+                  {selectedFeatures.map((f) => (
+                    <View key={f} style={s.chip}>
+                      <Text style={s.chipText}>{FEATURE_LABELS[f] ?? f}</Text>
+                    </View>
+                  ))}
+                </View>
               </View>
-              <View style={s.chipGrid}>
-                {selectedFeatures.map((f) => (
-                  <View key={f} style={s.chip}>
-                    <Text style={s.chipText}>{FEATURE_LABELS[f] ?? f}</Text>
-                  </View>
-                ))}
-              </View>
-            </View>
-          )}
+            )}
 
-          {/* Tech stack — clean label + value, no pill/badge */}
-          <View style={s.stackBlock} wrap={false}>
-            <Text style={s.stackEyebrow}>Recommended Technology Stack</Text>
-            <Text style={s.stackValue}>{techStack}</Text>
+            {/* Tech stack — clean label + value, no pill/badge */}
+            <View style={[s.stackBlock, s.pairCell]}>
+              <Text style={s.stackEyebrow}>Recommended Technology Stack</Text>
+              <Text style={s.stackValue}>{techStack}</Text>
+            </View>
           </View>
 
           {/* Total Estimate — brass left border, no border-radius */}
           <View style={s.totalBlock} wrap={false}>
             <Text style={s.totalEyebrow}>Total Estimate</Text>
-            <View>
-              <Text style={s.totalAmount}>${grand.toLocaleString()} USD</Text>
+            <View style={{ alignItems: "flex-end" }}>
+              <Text style={s.totalAmount}>
+                ${grand.toLocaleString()} <Text style={s.totalCurrency}>USD</Text>
+              </Text>
               <Text style={s.totalGHS}>approx. GHS {grandGHS}</Text>
             </View>
           </View>
 
-          {/* Deployment note pointing to page 2 — only when mobile */}
-          {isMobile && (
-            <View style={s.deployNote} wrap={false}>
-              <Text style={s.deployNoteText}>
-                App store deployment details continue on page 2
-              </Text>
-            </View>
-          )}
         </View>
 
         {/* Footer — fixed, all pages */}
