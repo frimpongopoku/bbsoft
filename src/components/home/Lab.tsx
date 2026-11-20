@@ -8,15 +8,17 @@ const FAN = [
   { eyebrow: "Business suite", name: "Pidaso", tone: "bg-ink-2 text-champagne border border-bone/10" },
 ] as const;
 
-// Bento spans on the 6-column grid: a wide feature card beside one product, then two even pairs.
-// On the 2-column md grid the feature and the last card go full width so every row fills.
+// Bento spans on the 6-column grid: a wide feature card beside one product, a row of three,
+// then the two Mac apps as an even pair. On the 2-column md grid the feature goes full width
+// and the remaining six fill three rows.
 const SPANS = [
   "md:col-span-2 lg:col-span-4",
   "lg:col-span-2",
+  "lg:col-span-2",
+  "lg:col-span-2",
+  "lg:col-span-2",
   "lg:col-span-3",
   "lg:col-span-3",
-  "lg:col-span-3",
-  "md:col-span-2 lg:col-span-3",
 ] as const;
 
 export default function Lab() {

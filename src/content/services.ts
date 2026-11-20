@@ -45,7 +45,7 @@ export const SERVICES: readonly Service[] = [
       { title: "Forms & integrations", body: "Enquiry forms, WhatsApp, newsletters, analytics and payments wired in." },
       { title: "Launch & handover", body: "Domain, hosting and SSL set up, with a walkthrough so you're confident running it." },
     ],
-    proof: ["Stella Teaches Typing", "Pongo Pad"],
+    proof: ["Stella Teaches Typing", "Selltns"],
     faqs: [
       {
         q: "How much does a website cost in Ghana?",

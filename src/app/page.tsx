@@ -31,8 +31,13 @@ const structuredData = {
       name: p.name,
       url: p.url,
       description: p.pitch,
-      applicationCategory: p.category === "Developer tools" ? "DeveloperApplication" : "BusinessApplication",
-      operatingSystem: p.platform === "macOS" ? "macOS" : p.platform === "Chrome extension" ? "Chrome" : "Web",
+      applicationCategory:
+        p.category === "Developer tools"
+          ? "DeveloperApplication"
+          : p.category === "Web browser"
+            ? "BrowserApplication"
+            : "BusinessApplication",
+      operatingSystem: p.platform === "macOS" ? "macOS" : "Web",
       publisher: { "@id": `${SITE_URL}/#organization` },
     })),
   ],
